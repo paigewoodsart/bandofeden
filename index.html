@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eden Band</title>
+  <meta name="description" content="Eden is a rock, blues, and pop band from the Pacific Northwest." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══ TOKENS ══════════════════════════════════════ */
+    :root {
+      --bg:      #0A0A0A;
+      --card:    #141414;
+      --gold:    #C0C0C0;
+      --gold-lt: #E8E8E8;
+      --cream:   #F2F0E4;
+      --muted:   #888888;
+      --border:  rgba(192,192,192,0.25);
+      --glow:    0 0 20px rgba(192,192,192,0.25);
+      --glow-lg: 0 0 40px rgba(192,192,192,0.4);
+      --nav-h:   72px;
+      --max:     1100px;
+    }
+
+    /* ═══ RESET ═══════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Josefin Sans', sans-serif;
+      background-color: var(--bg);
+      background-image:
+        repeating-linear-gradient( 45deg, rgba(192,192,192,0.035) 0, rgba(192,192,192,0.035) 1px, transparent 0, transparent 24px),
+        repeating-linear-gradient(-45deg, rgba(192,192,192,0.035) 0, rgba(192,192,192,0.035) 1px, transparent 0, transparent 24px);
+      color: var(--cream);
+      min-height: 100vh;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button { cursor: pointer; font-family: inherit; }
+    /* prevent orphaned words on all text */
+    p, li, blockquote { text-wrap: pretty; overflow-wrap: break-word; }
+    h1, h2, h3, h4 { text-wrap: balance; }
+
+    /* ═══ SHARED TYPOGRAPHY ═══════════════════════════ */
+    .sect-label {
+      display: block;
+      font-family: 'Marcellus', serif;
+      font-size: 16px;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .sect-title {
+      font-family: 'Marcellus', serif;
+      font-size: clamp(1.9rem, 4.5vw, 3rem);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--cream);
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    /* rule: short gold bar + long fade */
+    .sect-rule {
+      display: flex;
+      align-items: center;
+      margin-bottom: 52px;
+    }
+    .sect-rule::before {
+      content: '';
+      display: block;
+      width: 56px;
+      height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+    .sect-rule::after {
+      content: '';
+      display: block;
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(192,192,192,0.45), transparent);
+    }
+    /* decorative diamond ◆ */
+    .deco-diamond {
+      display: inline-block;
+      width: 7px; height: 7px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+    /* generic flex line */
+    .deco-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(192,192,192,0.45);
+    }
+
+    /* ═══ BUTTONS ═════════════════════════════════════ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 38px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      border-radius: 0;
+      border: none;
+      text-wrap: pretty;
+      transition: background 0.35s, color 0.35s, box-shadow 0.35s, transform 0.15s;
+    }
+    .btn:hover  { transform: translateY(-3px); }
+    .btn:active { transform: translateY(-6px); transition-duration: 0.08s; }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--bg);
+    }
+    .btn-gold:hover { background: var(--gold-lt); box-shadow: var(--glow-lg); }
+    .btn-outline {
+      background: transparent;
+      color: var(--gold);
+      border: 2px solid var(--gold);
+    }
+    .btn-outline:hover { background: var(--gold); color: var(--bg); box-shadow: var(--glow-lg); }
+
+    /* ═══ NAV ═════════════════════════════════════════ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      background: transparent;
+      border-bottom: 1px solid transparent;
+      transition: background 0.4s, border-color 0.4s, backdrop-filter 0.4s;
+    }
+    #navbar.visible {
+      background: rgba(10,10,10,0.72);
+      border-bottom-color: var(--border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    #navbar.scrolled {
+      background: rgba(10,10,10,0.96);
+      border-bottom-color: rgba(192,192,192,0.5);
+    }
+    .nav-inner {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .nav-logo img { height: 38px; width: auto; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .nav-links a {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-merch a {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 20px;
+      border: 2px solid var(--gold);
+      font-size: 0.91rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      transition: background 0.3s, color 0.3s;
+    }
+    .nav-merch a:hover { background: var(--gold); color: var(--bg); }
+    .nav-hamburger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      color: var(--cream);
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 300;
+      font-size: 38px;
+      line-height: 1;
+      height: 38px;
+      width: 38px;
+      transition: color 0.2s, transform 0.25s;
+    }
+    .nav-hamburger:hover { color: var(--gold); }
+    .nav-hamburger.open { transform: rotate(45deg); }
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: var(--nav-h); left: 0; right: 0;
+      background: rgba(10,10,10,0.98);
+      border-bottom: 1px solid var(--border);
+      padding: 32px;
+      z-index: 199;
+    }
+    .nav-mobile.open { display: block; }
+    .nav-mobile ul { display: flex; flex-direction: column; gap: 24px; }
+    .nav-mobile a {
+      font-size: 1.235rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .nav-mobile a:hover { color: var(--gold); }
+    .nav-mobile .mobile-merch { margin-top: 32px; }
+
+    /* ═══ HERO ════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: calc(var(--nav-h) + 60px) 24px 80px;
+      overflow: hidden;
+    }
+    @keyframes kenburns {
+      0%   { transform: scale(1)    translate(0%, 0%); }
+      50%  { transform: scale(1.08) translate(-1.5%, -1%); }
+      100% { transform: scale(1)    translate(0%, 0%); }
+    }
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      z-index: 0;
+      animation: kenburns 22s ease-in-out infinite;
+      transform-origin: center center;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,10,10,0.38);
+      z-index: 1;
+    }
+    .hero-sunburst {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 55% at center 38%, rgba(192,192,192,0.13) 0%, transparent 70%);
+      z-index: 2;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* flanking lines + diamond at top */
+    .hero-topline {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 32px;
+      width: min(460px, 88vw);
+    }
+    .hero-topline::before, .hero-topline::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+    }
+    .hero-topline::before { background: linear-gradient(to right, transparent, rgba(192,192,192,0.65)); }
+    .hero-topline::after  { background: linear-gradient(to left,  transparent, rgba(192,192,192,0.65)); }
+    .hero-topline .deco-diamond { margin: 0 18px; }
+    .hero-logo {
+      height: 116px;
+      width: auto;
+      margin-bottom: 28px;
+      filter: drop-shadow(0 0 18px rgba(192,192,192,0.2));
+    }
+    .hero-tagline {
+      font-size: 0.91rem;
+      font-weight: 600;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      text-shadow: 0 1px 12px rgba(0,0,0,0.9);
+    }
+    .hero-subtext {
+      font-family: 'Marcellus', serif;
+      font-size: clamp(1.2rem, 2.9vw, 1.72rem);
+      font-style: italic;
+      color: var(--cream);
+      max-width: 580px;
+      line-height: 1.5;
+      margin-bottom: 40px;
+      text-shadow: 0 2px 24px rgba(0,0,0,0.85), 0 1px 6px rgba(0,0,0,0.7);
+    }
+    .hero-bottomline {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 40px;
+      width: min(280px, 88vw);
+    }
+
+    /* ═══ SECTION WRAPPER ═════════════════════════════ */
+    #about    { background: var(--card); }
+    #music    { background: var(--bg); }
+    #shows    { background: var(--card); }
+    #reviews  { background: var(--bg); }
+    #instagram { background: var(--card); }
+    #contact  { background: var(--bg); }
+    .inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 112px 32px;
+    }
+
+    /* ═══ ABOUT ═══════════════════════════════════════ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-text p {
+      font-size: 18px;
+      line-height: 1.9;
+      color: rgba(242,240,228,0.72);
+      font-weight: 300;
+    }
+    .about-members-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .member-item {
+      padding: 18px 0 18px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+      transition: padding-left 0.3s;
+    }
+    .member-item:first-child { border-top: 1px solid var(--border); }
+    .member-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--gold);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .member-item:hover { padding-left: 14px; }
+    .member-item:hover::before { opacity: 1; }
+    .member-name {
+      font-family: 'Marcellus', serif;
+      font-size: 1.3rem;
+      color: var(--cream);
+      letter-spacing: 0.04em;
+    }
+    .member-role {
+      font-size: 17px;
+      color: var(--muted);
+      letter-spacing: 0.07em;
+    }
+
+    /* ═══ MUSIC ═══════════════════════════════════════ */
+    .music-desc {
+      font-size: 18px;
+      line-height: 1.9;
+      color: rgba(242,240,228,0.7);
+      font-weight: 300;
+      max-width: 580px;
+      margin-bottom: 48px;
+    }
+    .spotify-frame {
+      border: 1px solid var(--border);
+      padding: 2px;
+      position: relative;
+    }
+    .spotify-frame::before, .spotify-frame::after {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.6;
+    }
+    .spotify-frame::before { top: -4px; left: -4px; border-width: 2px 0 0 2px; }
+    .spotify-frame::after  { bottom: -4px; right: -4px; border-width: 0 2px 2px 0; }
+
+    /* ═══ SHOWS ═══════════════════════════════════════ */
+    .shows-desc {
+      font-size: 18px;
+      line-height: 1.9;
+      color: rgba(242,240,228,0.7);
+      font-weight: 300;
+      max-width: 580px;
+      margin-bottom: 48px;
+    }
+    .shows-cta { margin-top: 40px; }
+
+    /* ═══ MEDIA ═══════════════════════════════════════ */
+    /* ═══ MEDIA MOSAIC ═══════════════════════════════ */
+    #media { position: relative; }
+    .media-mosaic {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 200px;
+      gap: 0;
+      line-height: 0;
+    }
+    .mosaic-item { overflow: hidden; position: relative; }
+    .mosaic-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* mosaic span pattern: 4 cols per row */
+    .mosaic-item:nth-child(1)  { grid-column: span 2; }
+    .mosaic-item:nth-child(5)  { grid-column: span 2; }
+    .mosaic-item:nth-child(9)  { grid-column: span 2; }
+    .mosaic-item:nth-child(10) { grid-column: span 2; }
+    /* 12 items fills 4 rows evenly */
+    /* ken burns variants */
+    @keyframes kb-a { 0% { transform: scale(1) translate(0,0); }     100% { transform: scale(1.12) translate(-2%,-1%); } }
+    @keyframes kb-b { 0% { transform: scale(1.1) translate(2%,1%); } 100% { transform: scale(1) translate(0,0); } }
+    @keyframes kb-c { 0% { transform: scale(1) translate(-2%,1%); }  100% { transform: scale(1.1) translate(2%,-1%); } }
+    @keyframes kb-d { 0% { transform: scale(1.08) translate(1%,-2%); } 100% { transform: scale(1) translate(-1%,2%); } }
+    .mosaic-item:nth-child(4n+1) img { animation: kb-a 18s ease-in-out infinite alternate; }
+    .mosaic-item:nth-child(4n+2) img { animation: kb-b 22s ease-in-out infinite alternate; }
+    .mosaic-item:nth-child(4n+3) img { animation: kb-c 20s ease-in-out infinite alternate; }
+    .mosaic-item:nth-child(4n+4) img { animation: kb-d 24s ease-in-out infinite alternate; }
+    /* content overlay */
+    .media-overlay-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(10,10,10,0.52);
+      text-align: center;
+      padding: 48px 32px;
+    }
+    .media-overlay-content .sect-rule {
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .media-overlay-content .sect-rule::before {
+      width: 48px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+    .media-overlay-content .sect-rule::after {
+      flex: none;
+      width: 48px;
+      background: linear-gradient(to left, transparent, var(--gold));
+    }
+    .media-overlay-content .sect-title { margin-bottom: 16px; }
+    .media-caption {
+      font-size: 1.17rem;
+      color: rgba(242,240,228,0.7);
+      font-weight: 300;
+      max-width: 400px;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+
+    /* ═══ REVIEWS ════════════════════════════════════ */
+    .reviews-carousel-wrap {
+      position: relative;
+    }
+    /* single merged block — no duplicate */
+    .review-card {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 48px 40px 40px;
+      opacity: 0;
+      transform: translateX(56px);
+      pointer-events: none;
+      transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.4s, box-shadow 0.4s;
+    }
+    .review-card.is-active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+      border-color: rgba(192,192,192,0.5);
+      box-shadow: var(--glow);
+    }
+    .review-card.is-exiting {
+      opacity: 0;
+      transform: translateX(-56px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .review-card::before, .review-card::after {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.45;
+      transition: opacity 0.4s;
+    }
+    .review-card::before { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+    .review-card::after  { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+    .review-card.is-active::before, .review-card.is-active::after { opacity: 1; }
+    .review-quote {
+      font-family: 'Marcellus', serif;
+      font-size: 5rem;
+      line-height: 1;
+      color: var(--gold);
+      opacity: 0.3;
+      margin-bottom: 4px;
+      user-select: none;
+    }
+    .review-text {
+      font-size: 18px;
+      line-height: 1.88;
+      color: rgba(242,240,228,0.72);
+      font-style: italic;
+      font-weight: 300;
+      margin-bottom: 28px;
+    }
+    .review-author {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ═══ INSTAGRAM ══════════════════════════════════ */
+    .instagram-placeholder {
+      border: 1px solid var(--border);
+      padding: 80px 40px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .instagram-placeholder::before, .instagram-placeholder::after {
+      content: '';
+      position: absolute;
+      width: 22px; height: 22px;
+      border-color: var(--gold);
+      border-style: solid;
+    }
+    .instagram-placeholder::before { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
+    .instagram-placeholder::after  { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
+    .instagram-placeholder svg { width: 42px; height: 42px; fill: var(--gold); opacity: 0.55; }
+    .instagram-placeholder p { font-size: 1.17rem; color: var(--muted); letter-spacing: 0.04em; }
+    .instagram-placeholder a { color: var(--gold); transition: color 0.3s; }
+    .instagram-placeholder a:hover { color: var(--gold-lt); }
+
+    .follow-socials {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .follow-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 40px 20px 32px;
+      border: 1px solid var(--border);
+      position: relative;
+      transition: border-color 0.4s, box-shadow 0.4s, transform 0.4s;
+      text-align: center;
+    }
+    .follow-link::before, .follow-link::after {
+      content: '';
+      position: absolute;
+      width: 14px; height: 14px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.4;
+      transition: opacity 0.4s;
+    }
+    .follow-link::before { top: 7px; left: 7px; border-width: 1px 0 0 1px; }
+    .follow-link::after  { bottom: 7px; right: 7px; border-width: 0 1px 1px 0; }
+    .follow-link:hover {
+      border-color: rgba(192,192,192,0.7);
+      box-shadow: var(--glow);
+      transform: translateY(-4px);
+    }
+    .follow-link:hover::before, .follow-link:hover::after { opacity: 1; }
+    .follow-icon {
+      width: 52px; height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .follow-icon svg { width: 100%; height: 100%; fill: var(--gold); opacity: 0.75; transition: opacity 0.3s; }
+    .follow-link:hover .follow-icon svg { opacity: 1; }
+    .follow-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+    .follow-handle {
+      font-size: 1.04rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    /* socials handled in main mobile block below */
+
+    /* ═══ CONTACT ════════════════════════════════════ */
+    .contact-wrap { max-width: 680px; }
+    .contact-desc {
+      font-size: 18px;
+      line-height: 1.85;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+      max-width: 500px;
+      margin-bottom: 52px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px 48px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .form-group input,
+    .form-group textarea {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid rgba(192,192,192,0.3);
+      color: var(--cream);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 1.235rem;
+      font-weight: 300;
+      padding: 10px 0;
+      outline: none;
+      border-radius: 0;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-bottom-color: var(--gold);
+      box-shadow: 0 4px 14px rgba(192,192,192,0.12);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(136,136,136,0.45); }
+    .form-group textarea { min-height: 100px; resize: vertical; }
+    .form-submit { margin-top: 8px; }
+
+    /* ═══ FOOTER ═════════════════════════════════════ */
+    footer {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      padding: 56px 32px 40px;
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      text-align: center;
+    }
+    .footer-rule {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .footer-rule::before {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(192,192,192,0.4));
+    }
+    .footer-rule::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to left, transparent, rgba(192,192,192,0.4));
+    }
+    .footer-rule .deco-diamond { margin: 0 20px; }
+    .footer-logo img { height: 34px; }
+    .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 28px;
+    }
+    .footer-nav a {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+    .footer-nav a:hover { color: var(--gold); }
+    .footer-socials {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .footer-socials a {
+      width: 40px; height: 40px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      transition: border-color 0.3s, color 0.3s, box-shadow 0.3s;
+    }
+    .footer-socials a:hover { border-color: var(--gold); color: var(--gold); box-shadow: var(--glow); }
+    .footer-socials svg { width: 16px; height: 16px; fill: currentColor; }
+    .footer-copy {
+      font-size: 16px;
+      color: rgba(136,136,136,0.5);
+      letter-spacing: 0.1em;
+    }
+
+    /* hamburger hidden on desktop — shown by default everywhere else */
+    @media (min-width: 801px) {
+      .nav-hamburger { display: none; }
+    }
+
+    /* ═══ RESPONSIVE ══════════════════════════════════ */
+    @media (max-width: 800px) {
+
+      /* 1. nav: transparent at top, dark on scroll — no animation needed */
+      #navbar {
+        padding: 0;
+      }
+      .nav-inner {
+        padding: 0 0 0 12px;
+      }
+      .nav-hamburger {
+        margin-right: 5px;
+        flex-shrink: 0;
+      }
+
+      /* 2. hero: natural photo aspect ratio, no excessive height */
+      #hero {
+        min-height: 0;
+        height: auto;
+        padding-top: calc(var(--nav-h) + 32px);
+        padding-bottom: 48px;
+      }
+      .hero-img {
+        position: absolute;
+        height: 100%;
+      }
+
+      /* general layout — 20px side margins for all text sections */
+      .inner { padding: 64px 20px; }
+      .nav-links, .nav-merch { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: auto; }
+      .hero-logo { height: 72px; }
+
+      /* 4. mosaic: 50% smaller row height */
+      .media-mosaic {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 100px;
+      }
+      .media-overlay-content { padding: 24px 16px; }
+
+      /* 5. reviews: 20px side margin, 10px bottom */
+      #reviews .inner { padding: 48px 20px 10px; }
+      .reviews-carousel-wrap { margin: 0; }
+      .review-card { padding: 32px 20px 24px; }
+
+      /* 6. socials: 2×2 grid, 4px gap */
+      .follow-socials {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4px;
+      }
+      .follow-link { padding: 28px 12px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAV ════════════════════════════════════════ -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="Eden — home">
+        <img src="images/eden-logo.png" alt="Eden" />
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#music">Music</a></li>
+        <li><a href="#shows">Shows</a></li>
+        <li><a href="#media">Media</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-merch">
+        <!-- MERCH LINK: replace href="#" with merchandise store URL when available -->
+        <a href="#" aria-label="Shop Eden merchandise">Merch</a>
+      </div>
+      <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">+</button>
+    </div>
+  </nav>
+
+  <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+    <ul role="list">
+      <li><a href="#about">About</a></li>
+      <li><a href="#music">Music</a></li>
+      <li><a href="#shows">Shows</a></li>
+      <li><a href="#media">Media</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="mobile-merch">
+      <a href="#" class="btn btn-outline">Merch</a>
+    </div>
+  </div>
+
+  <!-- ═══ HERO ════════════════════════════════════════ -->
+  <section id="hero" aria-label="Hero">
+    <img src="images/band-hero.jpg" alt="" class="hero-img" aria-hidden="true" />
+    <div class="hero-overlay"></div>
+    <div class="hero-sunburst" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-topline" aria-hidden="true">
+        <div class="deco-diamond" style="margin:0 18px;"></div>
+      </div>
+      <img src="images/eden-logo.png" alt="Eden" class="hero-logo" />
+      <p class="hero-tagline">Rock &bull; Blues &bull; Pop &bull; Pacific Northwest</p>
+      <p class="hero-subtext">Fronted by powerhouse vocalist Savanna Woods, a recent Top&nbsp;20 artist on NBC&#8217;s The Voice</p>
+      <div class="hero-bottomline" aria-hidden="true">
+        <div class="deco-line"></div>
+        <div class="deco-diamond"></div>
+        <div class="deco-line"></div>
+      </div>
+      <a href="#contact" class="btn btn-gold">Book Eden for Your Event</a>
+    </div>
+  </section>
+
+  <!-- ═══ ABOUT ═══════════════════════════════════════ -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="inner">
+      <div class="about-grid">
+        <div>
+          <span class="sect-label" aria-hidden="true">I</span>
+          <h2 class="sect-title" id="about-title">About Eden</h2>
+          <div class="sect-rule" aria-hidden="true"></div>
+          <div class="about-text">
+            <p>Eden is a rock, blues, and pop band from the Pacific Northwest, bringing an energetic and impactful sound to every performance. Led by Savanna Woods, their music combines original songs with dynamic covers from the 60s through today.</p>
+          </div>
+        </div>
+        <div>
+          <p class="about-members-label">The Band</p>
+          <ul role="list">
+            <li class="member-item">
+              <span class="member-name">Savanna Woods</span>
+              <span class="member-role">Vocals &nbsp;&middot;&nbsp; Top 20, NBC&#8217;s The Voice</span>
+            </li>
+            <li class="member-item">
+              <span class="member-name">Aaron Hiebert</span>
+              <span class="member-role">Electric Guitar</span>
+            </li>
+            <li class="member-item">
+              <span class="member-name">Jason Edwards</span>
+              <span class="member-role">Drums</span>
+            </li>
+            <li class="member-item">
+              <span class="member-name">Ethan Gibbons</span>
+              <span class="member-role">Bass</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ MUSIC ════════════════════════════════════════ -->
+  <section id="music" aria-labelledby="music-title">
+    <div class="inner">
+      <span class="sect-label" aria-hidden="true">II</span>
+      <h2 class="sect-title" id="music-title">Our Sound</h2>
+      <div class="sect-rule" aria-hidden="true"></div>
+      <p class="music-desc">Eden plays a wide range of music, from original tracks to timeless covers. Whether it is Fleetwood Mac, AC/DC, or Stevie Ray Vaughan, the band guarantees a show that gets you moving.</p>
+      <div class="spotify-frame">
+        <iframe
+          style="border-radius:0; display:block;"
+          src="https://open.spotify.com/embed/artist/3MVi8s3VCXBQfafggFGbsp?utm_source=generator&theme=0"
+          width="100%" height="352" frameBorder="0" allowfullscreen=""
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy" title="Eden on Spotify">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SHOWS ════════════════════════════════════════ -->
+  <section id="shows" aria-labelledby="shows-title">
+    <div class="inner">
+      <span class="sect-label" aria-hidden="true">III</span>
+      <h2 class="sect-title" id="shows-title">Live Shows</h2>
+      <div class="sect-rule" aria-hidden="true"></div>
+      <p class="shows-desc">Experience Eden live and feel the energy for yourself. Perfect for clubs, festivals, and private events.</p>
+      <a class="bit-widget-initializer"
+         data-artist-name="band-of-eden"
+         data-display-local-dates="true"
+         data-display-past-dates="false"
+         data-auto-style="true"
+         data-widget-width="100%"
+         data-lang="en"
+         data-font-color="#F2F0E4"
+         data-button-label="Get Tickets"
+         data-button-type="link"
+         data-background-color="#141414"
+         data-separator-color="#C0C0C0"
+         data-link-color="#C0C0C0"
+         href="https://www.bandsintown.com/a/15500141-band-of-eden?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=search_bar">
+      </a>
+      <script defer src="https://widget.bandsintown.com/main.min.js" charset="utf-8"></script>
+      <div class="shows-cta">
+        <a href="#contact" class="btn btn-outline">Book Eden for Your Event</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ MEDIA ════════════════════════════════════════ -->
+  <section id="media" aria-labelledby="media-title">
+    <div class="media-mosaic" aria-hidden="true">
+      <div class="mosaic-item"><img src="eden-images/By Aaron Wiganosky.jpg" alt="" /></div>
+      <div class="mosaic-item"><img src="eden-images/dsc00092.jpg" alt="" /></div>
+      <div class="mosaic-item"><img src="eden-images/dsc00113.jpg" alt="" /></div>
+      <div class="mosaic-item"><img src="eden-images/By Aaron Wiganosky(1).jpg" alt="" /></div>
+      <div class="mosaic-item"><img src="eden-images/img_1321.jpg" alt="" /></div>
+      <div class="mosaic-item"><img src="eden-images/dsc00062.JPG" alt="" /></div>
+      <div class="mosaic-item"><img src="eden-images/dsc00208.jpg" alt="" /></div>
+      <div class="mosaic-item"><img src="eden-images/By Aaron Wiganosky(2).jpg" alt="" /></div>
+      <div class="mosaic-item"><img src="eden-images/Angel of the Winds by Limo John Janson.jpg" alt="" /></div>
+      <div class="mosaic-item"><img src="eden-images/dsc00244.jpg" alt="" /></div>
+      <div class="mosaic-item"><img src="eden-images/Copy of img_1319.jpg" alt="" /></div>
+      <div class="mosaic-item"><img src="eden-images/img_1323.jpg" alt="" /></div>
+    </div>
+    <div class="media-overlay-content">
+      <span class="sect-label" aria-hidden="true">IV</span>
+      <h2 class="sect-title" id="media-title">Media Kit</h2>
+      <div class="sect-rule" aria-hidden="true"></div>
+      <p class="media-caption">Professional photos, bios, and press materials available for download.</p>
+      <a href="https://drive.google.com/drive/folders/1j_kLuoDWUkPwVWY_hUu7pWBuFCNUvNDQ"
+         target="_blank" rel="noopener noreferrer" class="btn btn-gold">Download Press Kit</a>
+    </div>
+  </section>
+
+  <!-- ═══ REVIEWS ══════════════════════════════════════ -->
+  <section id="reviews" aria-labelledby="reviews-title">
+    <div class="inner">
+      <span class="sect-label" aria-hidden="true">V</span>
+      <h2 class="sect-title" id="reviews-title">What People Are Saying</h2>
+      <div class="sect-rule" aria-hidden="true"></div>
+      <div class="reviews-carousel-wrap" role="region" aria-label="Reviews">
+        <article class="review-card">
+          <div class="review-quote" aria-hidden="true">&ldquo;</div>
+          <p class="review-text">Having produced thousands of concerts, few exceed the entertainment value Eden provides the audience. Each performer is a highly skilled and entertaining artist stretching the boundaries of their craft. Every demographic will enjoy an Eden performance again and again.</p>
+          <p class="review-author">John Rostas &nbsp;&middot;&nbsp; President, Live Nation Entertainment (Retired)</p>
+        </article>
+        <article class="review-card">
+          <div class="review-quote" aria-hidden="true">&ldquo;</div>
+          <p class="review-text">Absolutely love, great energy, and great dancing moving music! Members are SO NICE!!! Love them, 2nd time seeing them and I&#8217;m totally in for seeing them AGAIN.</p>
+          <p class="review-author">D.</p>
+        </article>
+        <article class="review-card">
+          <div class="review-quote" aria-hidden="true">&ldquo;</div>
+          <p class="review-text">Fabulous band with an authentic soul vibe and incredible stage presence.</p>
+          <p class="review-author">S.</p>
+        </article>
+        <article class="review-card">
+          <div class="review-quote" aria-hidden="true">&ldquo;</div>
+          <p class="review-text">Saw these fine folk at Vino Bella in Issaquah on December 3 and was blown away. Instant fan. Can&#8217;t wait for the EP!</p>
+          <p class="review-author">K.</p>
+        </article>
+        <article class="review-card">
+          <div class="review-quote" aria-hidden="true">&ldquo;</div>
+          <p class="review-text">Great Band, love listening to them, love watching them, awesome vibes!!!</p>
+          <p class="review-author">T.</p>
+        </article>
+        <article class="review-card">
+          <div class="review-quote" aria-hidden="true">&ldquo;</div>
+          <p class="review-text">Amazing! Great showmanship and crowd engagement, songs and sounds. Love it.</p>
+          <p class="review-author">W.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ INSTAGRAM ═════════════════════════════════════ -->
+  <section id="instagram" aria-labelledby="instagram-title">
+    <div class="inner">
+      <span class="sect-label" aria-hidden="true">VI</span>
+      <h2 class="sect-title" id="instagram-title">Follow Along</h2>
+      <div class="sect-rule" aria-hidden="true"></div>
+      <!-- INSTAGRAM EMBED: Replace .follow-socials block with LightWidget or Behold embed code when ready -->
+      <div class="follow-socials">
+        <a href="https://www.instagram.com/bandofeden/" target="_blank" rel="noopener noreferrer" class="follow-link" aria-label="Eden on Instagram">
+          <div class="follow-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </div>
+          <span class="follow-label">Instagram</span>
+          <span class="follow-handle">@bandofeden</span>
+        </a>
+
+        <a href="https://www.facebook.com/bandofeden" target="_blank" rel="noopener noreferrer" class="follow-link" aria-label="Eden on Facebook">
+          <div class="follow-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </div>
+          <span class="follow-label">Facebook</span>
+          <span class="follow-handle">@bandofeden</span>
+        </a>
+
+        <a href="https://open.spotify.com/artist/3MVi8s3VCXBQfafggFGbsp?si=CHlYRIBcQAWkZBNVidS4CQ" target="_blank" rel="noopener noreferrer" class="follow-link" aria-label="Eden on Spotify">
+          <div class="follow-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          </div>
+          <span class="follow-label">Spotify</span>
+          <span class="follow-handle">Eden</span>
+        </a>
+
+        <a href="https://music.apple.com/us/album/eden/1692618266" target="_blank" rel="noopener noreferrer" class="follow-link" aria-label="Eden on Apple Music">
+          <div class="follow-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+          </div>
+          <span class="follow-label">Apple Music</span>
+          <span class="follow-handle">Eden</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══════════════════════════════════════ -->
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="inner">
+      <span class="sect-label" aria-hidden="true">VII</span>
+      <h2 class="sect-title" id="contact-title">Get in Touch</h2>
+      <div class="sect-rule" aria-hidden="true"></div>
+      <p class="contact-desc">For bookings, press inquiries, or fan messages, reach out below and we will get back to you shortly.</p>
+      <div class="contact-wrap">
+        <form id="booking-form" novalidate>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="f-name">Name <span aria-hidden="true">*</span></label>
+              <input type="text" id="f-name" name="name" placeholder="Your name" required autocomplete="name" />
+            </div>
+            <div class="form-group">
+              <label for="f-email">Email <span aria-hidden="true">*</span></label>
+              <input type="email" id="f-email" name="email" placeholder="your@email.com" required autocomplete="email" />
+            </div>
+            <div class="form-group">
+              <label for="f-phone">Phone <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></label>
+              <input type="tel" id="f-phone" name="phone" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+            </div>
+            <div class="form-group">
+              <label for="f-venue">Venue <span aria-hidden="true">*</span></label>
+              <input type="text" id="f-venue" name="venue" placeholder="Venue name and location" required />
+            </div>
+            <div class="form-group">
+              <label for="f-date">Event Date <span aria-hidden="true">*</span></label>
+              <input type="date" id="f-date" name="date" required />
+            </div>
+            <div class="form-group">
+              <label for="f-budget">Budget <span aria-hidden="true">*</span></label>
+              <input type="text" id="f-budget" name="budget" placeholder="e.g. $2,000 – $5,000" required />
+            </div>
+            <div class="form-group full">
+              <label for="f-message">Additional Details</label>
+              <textarea id="f-message" name="message" placeholder="Event type, expected attendance, any other details..."></textarea>
+            </div>
+            <div class="form-submit full">
+              <button type="submit" class="btn btn-gold">Send Inquiry</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-rule" aria-hidden="true">
+        <div class="deco-diamond" style="margin:0 20px;"></div>
+      </div>
+      <a href="#hero" class="footer-logo" aria-label="Eden — back to top">
+        <img src="images/eden-logo.png" alt="Eden" />
+      </a>
+      <nav aria-label="Footer navigation">
+        <ul class="footer-nav" role="list">
+          <li><a href="#about">About</a></li>
+          <li><a href="#music">Music</a></li>
+          <li><a href="#shows">Shows</a></li>
+          <li><a href="#media">Media</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="footer-socials" aria-label="Social media links">
+        <a href="https://www.facebook.com/bandofeden" target="_blank" rel="noopener noreferrer" aria-label="Eden on Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/bandofeden/" target="_blank" rel="noopener noreferrer" aria-label="Eden on Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://open.spotify.com/artist/3MVi8s3VCXBQfafggFGbsp?si=CHlYRIBcQAWkZBNVidS4CQ" target="_blank" rel="noopener noreferrer" aria-label="Eden on Spotify">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+        </a>
+        <a href="https://music.apple.com/us/album/eden/1692618266" target="_blank" rel="noopener noreferrer" aria-label="Eden on Apple Music">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        </a>
+      </div>
+      <p class="footer-copy">&copy; <span id="footer-year">2026</span> Eden Band. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // nav scroll-reveal
+    const navbar = document.getElementById('navbar');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      navbar.classList.toggle('visible',  y > 80);
+      navbar.classList.toggle('scrolled', y > 300);
+    }, { passive: true });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+
+    // hamburger
+    const hamburger = document.querySelector('.nav-hamburger');
+    const mobileNav = document.getElementById('nav-mobile');
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.classList.toggle('open');
+      mobileNav.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+      hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      mobileNav.setAttribute('aria-hidden', !open);
+    });
+    mobileNav.querySelectorAll('a').forEach(l => l.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileNav.setAttribute('aria-hidden', 'true');
+    }));
+
+    // reviews carousel
+    (function () {
+      const wrap  = document.querySelector('.reviews-carousel-wrap');
+      const cards = Array.from(wrap.querySelectorAll('.review-card'));
+      const STAY = 3500, TRANS = 500;
+      let current = 0, timer = null, started = false;
+
+      function sizeWrap() {
+        // clone each card into body at static position to measure natural height
+        let max = 0;
+        const w = wrap.offsetWidth;
+        cards.forEach(c => {
+          const clone = c.cloneNode(true);
+          clone.style.cssText = 'position:fixed;top:-9999px;left:0;width:' + w + 'px;opacity:1;transform:none;pointer-events:auto;';
+          document.body.appendChild(clone);
+          max = Math.max(max, clone.offsetHeight);
+          document.body.removeChild(clone);
+        });
+        wrap.style.height = (max + 2) + 'px';
+      }
+
+      function goTo(idx) {
+        const prev = cards[current];
+        prev.classList.remove('is-active');
+        prev.classList.add('is-exiting');
+        setTimeout(() => prev.classList.remove('is-exiting'), TRANS);
+        cards[idx].classList.add('is-active');
+        current = idx;
+      }
+
+      function start() {
+        if (started) return;
+        started = true;
+        sizeWrap();
+        // first card: suppress the slide, just fade in
+        cards[0].style.transform = 'translateX(0)';
+        cards[0].classList.add('is-active');
+        setTimeout(() => { cards[0].style.transform = ''; }, TRANS);
+        timer = setInterval(() => goTo((current + 1) % cards.length), STAY + TRANS);
+      }
+
+      const cycle = () => goTo((current + 1) % cards.length);
+      wrap.addEventListener('mouseenter',  () => clearInterval(timer));
+      wrap.addEventListener('mouseleave',  () => { timer = setInterval(cycle, STAY + TRANS); });
+      wrap.addEventListener('touchstart',  () => clearInterval(timer), { passive: true });
+      wrap.addEventListener('touchend',    () => { timer = setInterval(cycle, STAY + TRANS); }, { passive: true });
+
+      const obs = new IntersectionObserver(e => {
+        if (e[0].isIntersecting) { start(); obs.disconnect(); }
+      }, { threshold: 0.2 });
+      obs.observe(document.getElementById('reviews'));
+      window.addEventListener('resize', sizeWrap);
+    })();
+
+    // contact form
+    document.getElementById('booking-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const v = n => this.elements[n].value.trim();
+      if (!v('name') || !v('email') || !v('venue') || !v('date') || !v('budget')) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      const body = [
+        `Name: ${v('name')}`,
+        `Email: ${v('email')}`,
+        v('phone') ? `Phone: ${v('phone')}` : '',
+        `Venue: ${v('venue')}`,
+        `Date: ${v('date')}`,
+        `Budget: ${v('budget')}`,
+        v('message') ? `\nDetails:\n${v('message')}` : '',
+      ].filter(Boolean).join('\n');
+      window.location.href = `mailto:?subject=Eden Band Booking Inquiry&body=${encodeURIComponent(body)}`;
+    });
+
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
