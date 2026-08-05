@@ -22,6 +22,9 @@
       --glow-lg: 0 0 40px rgba(192,192,192,0.4);
       --nav-h:   72px;
       --max:     1100px;
+      --hero-logo-h:       116px;
+      --hero-logo-huge:    7;
+      --hero-logo-landing: 2;
     }
 
     /* ═══ RESET ═══════════════════════════════════════ */
@@ -191,7 +194,7 @@
       justify-content: space-between;
       gap: 24px;
     }
-    .nav-logo img { height: 38px; width: auto; }
+    .nav-logo { display: block; width: 166px; height: 56px; }
     .nav-links {
       display: flex;
       align-items: center;
@@ -264,7 +267,7 @@
       position: relative;
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       text-align: center;
       padding: calc(var(--nav-h) + 60px) 24px 80px;
@@ -303,54 +306,45 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-top: calc(50vh - 34px);
     }
-    /* flanking lines + diamond at top */
-    .hero-topline {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      margin-bottom: 32px;
-      width: min(460px, 88vw);
-    }
-    .hero-topline::before, .hero-topline::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-    }
-    .hero-topline::before { background: linear-gradient(to right, transparent, rgba(192,192,192,0.65)); }
-    .hero-topline::after  { background: linear-gradient(to left,  transparent, rgba(192,192,192,0.65)); }
-    .hero-topline .deco-diamond { margin: 0 18px; }
+
+    /* ═══ HERO LOGO — fixed from load; intro zoom-in, then scroll-docks to nav ═══ */
     .hero-logo {
-      height: 116px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      height: var(--hero-logo-h);
       width: auto;
-      margin-bottom: 28px;
+      transform-origin: center center;
+      transform: translate(-50%, -50%) scale(1);
       filter: drop-shadow(0 0 18px rgba(192,192,192,0.2));
+      z-index: 250;
+      pointer-events: none;
+      animation: heroLogoIntro 3.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+      transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                  top 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .hero-tagline {
-      font-size: 0.91rem;
-      font-weight: 600;
-      letter-spacing: 0.38em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 24px;
-      text-shadow: 0 1px 12px rgba(0,0,0,0.9);
+    @keyframes heroLogoIntro {
+      0%    { transform: translate(-50%, -50%) scale(var(--hero-logo-huge)); }
+      11.8% { transform: translate(-50%, -50%) scale(var(--hero-logo-landing)); }
+      100%  { transform: translate(-50%, -50%) scale(1); }
     }
-    .hero-subtext {
-      font-family: 'Marcellus', serif;
-      font-size: clamp(1.2rem, 2.9vw, 1.72rem);
-      font-style: italic;
-      color: var(--cream);
-      max-width: 580px;
-      line-height: 1.5;
-      margin-bottom: 40px;
-      text-shadow: 0 2px 24px rgba(0,0,0,0.85), 0 1px 6px rgba(0,0,0,0.7);
+    .hero-logo.intro-settled { animation: none; }
+    .hero-logo.docked {
+      left: max(115px, calc(50vw - 435px));
+      top: calc(var(--nav-h) / 2);
+      transform: translate(-50%, -50%) scale(0.483);
     }
-    .hero-bottomline {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 40px;
-      width: min(280px, 88vw);
+
+    .hero-cta {
+      opacity: 0;
+      animation: heroCtaFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 3.4s forwards;
+    }
+    @keyframes heroCtaFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ═══ SECTION WRAPPER ═════════════════════════════ */
@@ -861,7 +855,16 @@
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
       .form-grid { grid-template-columns: 1fr; }
       .form-group.full { grid-column: auto; }
-      .hero-logo { height: 72px; }
+
+      :root {
+        --hero-logo-h: 72px;
+        --hero-logo-huge: 4;
+      }
+      .hero-content { margin-top: calc(50vh - 40px); }
+      .hero-logo.docked {
+        left: 95px;
+        transform: translate(-50%, -50%) scale(0.778);
+      }
 
       /* 4. mosaic: 50% smaller row height */
       .media-mosaic {
@@ -889,9 +892,7 @@
   <!-- ═══ NAV ════════════════════════════════════════ -->
   <nav id="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
-      <a href="#hero" class="nav-logo" aria-label="Eden — home">
-        <img src="images/eden-logo.png" alt="Eden" />
-      </a>
+      <a href="#hero" class="nav-logo" aria-label="Eden — home"></a>
       <ul class="nav-links" role="list">
         <li><a href="#about">About</a></li>
         <li><a href="#music">Music</a></li>
@@ -922,24 +923,15 @@
     </div>
   </div>
 
+  <img src="images/eden-logo.png" alt="Eden" class="hero-logo" id="hero-logo" />
+
   <!-- ═══ HERO ════════════════════════════════════════ -->
   <section id="hero" aria-label="Hero">
-    <img src="images/band-hero.jpg" alt="" class="hero-img" aria-hidden="true" />
+    <img src="eden-images/eden-brodienation-26-rmv.webp" alt="" class="hero-img" aria-hidden="true" />
     <div class="hero-overlay"></div>
     <div class="hero-sunburst" aria-hidden="true"></div>
     <div class="hero-content">
-      <div class="hero-topline" aria-hidden="true">
-        <div class="deco-diamond" style="margin:0 18px;"></div>
-      </div>
-      <img src="images/eden-logo.png" alt="Eden" class="hero-logo" />
-      <p class="hero-tagline">Rock &bull; Blues &bull; Pop</p>
-      <p class="hero-subtext">The Pacific Northwest&#8217;s Premier Rock Band</p>
-      <div class="hero-bottomline" aria-hidden="true">
-        <div class="deco-line"></div>
-        <div class="deco-diamond"></div>
-        <div class="deco-line"></div>
-      </div>
-      <a href="#shows" class="btn btn-gold">SHOWS</a>
+      <a href="#shows" class="btn btn-gold hero-cta">SHOWS</a>
     </div>
   </section>
 
@@ -1230,13 +1222,17 @@
   </div>
 
   <script>
-    // nav scroll-reveal
+    // nav scroll-reveal + hero-logo swoosh dock
     const navbar = document.getElementById('navbar');
     const navLinks = document.querySelectorAll('.nav-links a');
+    const heroLogo = document.getElementById('hero-logo');
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
+      const past = y > 80;
       navbar.classList.toggle('visible',  y > 80);
       navbar.classList.toggle('scrolled', y > 300);
+      heroLogo.classList.toggle('docked', past);
+      if (past) heroLogo.classList.add('intro-settled');
     }, { passive: true });
 
     const observer = new IntersectionObserver(entries => {
