@@ -22,9 +22,9 @@
       --glow-lg: 0 0 40px rgba(192,192,192,0.4);
       --nav-h:   72px;
       --max:     1100px;
-      --hero-logo-h:       116px;
-      --hero-logo-huge:    7;
-      --hero-logo-landing: 2;
+      --hero-logo-w-rest:    344px;
+      --hero-logo-w-landing: 50vw;
+      --hero-logo-w-huge:    140vw;
     }
 
     /* ═══ RESET ═══════════════════════════════════════ */
@@ -288,18 +288,6 @@
       animation: kenburns 22s ease-in-out infinite;
       transform-origin: center center;
     }
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(10,10,10,0.38);
-      z-index: 1;
-    }
-    .hero-sunburst {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 70% 55% at center 38%, rgba(192,192,192,0.13) 0%, transparent 70%);
-      z-index: 2;
-    }
     .hero-content {
       position: relative;
       z-index: 3;
@@ -314,28 +302,27 @@
       position: fixed;
       top: 50%;
       left: 50%;
-      height: var(--hero-logo-h);
-      width: auto;
-      transform-origin: center center;
-      transform: translate(-50%, -50%) scale(1);
+      width: var(--hero-logo-w-rest);
+      height: auto;
+      transform: translate(-50%, -50%);
       filter: drop-shadow(0 0 18px rgba(192,192,192,0.2));
       z-index: 250;
       pointer-events: none;
       animation: heroLogoIntro 3.4s cubic-bezier(0.16, 1, 0.3, 1) both;
       transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1),
                   top 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                  width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes heroLogoIntro {
-      0%    { transform: translate(-50%, -50%) scale(var(--hero-logo-huge)); }
-      11.8% { transform: translate(-50%, -50%) scale(var(--hero-logo-landing)); }
-      100%  { transform: translate(-50%, -50%) scale(1); }
+      0%    { width: var(--hero-logo-w-huge); }
+      11.8% { width: var(--hero-logo-w-landing); }
+      100%  { width: var(--hero-logo-w-rest); }
     }
     .hero-logo.intro-settled { animation: none; }
     .hero-logo.docked {
       left: max(115px, calc(50vw - 435px));
       top: calc(var(--nav-h) / 2);
-      transform: translate(-50%, -50%) scale(0.483);
+      width: 166px;
     }
 
     .hero-cta {
@@ -857,13 +844,11 @@
       .form-group.full { grid-column: auto; }
 
       :root {
-        --hero-logo-h: 72px;
-        --hero-logo-huge: 4;
+        --hero-logo-w-rest: 214px;
       }
       .hero-content { margin-top: calc(50vh - 40px); }
       .hero-logo.docked {
         left: 95px;
-        transform: translate(-50%, -50%) scale(0.778);
       }
 
       /* 4. mosaic: 50% smaller row height */
@@ -927,9 +912,7 @@
 
   <!-- ═══ HERO ════════════════════════════════════════ -->
   <section id="hero" aria-label="Hero">
-    <img src="eden-images/eden-brodienation-26-rmv.webp" alt="" class="hero-img" aria-hidden="true" />
-    <div class="hero-overlay"></div>
-    <div class="hero-sunburst" aria-hidden="true"></div>
+    <img src="eden-images/eden-brodienation-26-rmv.jpg" alt="" class="hero-img" aria-hidden="true" />
     <div class="hero-content">
       <a href="#shows" class="btn btn-gold hero-cta">SHOWS</a>
     </div>
