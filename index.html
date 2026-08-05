@@ -230,15 +230,24 @@
     .nav-hamburger:hover { color: var(--gold); }
     .nav-hamburger.open { transform: rotate(45deg); }
     .nav-mobile {
-      display: none;
       position: fixed;
-      top: var(--nav-h); left: 0; right: 0;
-      background: rgba(10,10,10,0.98);
-      border-bottom: 1px solid var(--border);
-      padding: 32px;
-      z-index: 199;
+      top: 0; right: 0; bottom: 0;
+      width: min(320px, 85vw);
+      background: rgba(10,10,10,0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-left: 1px solid var(--border);
+      padding: 100px 32px 32px;
+      z-index: 260;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
     }
-    .nav-mobile.open { display: block; }
+    .nav-mobile.open {
+      transform: translateX(0);
+      pointer-events: auto;
+    }
     .nav-mobile ul { display: flex; flex-direction: column; gap: 24px; }
     .nav-mobile a {
       font-size: 1.235rem;
@@ -248,6 +257,24 @@
       color: #fff;
     }
     .nav-mobile a:hover { color: var(--gold); }
+    .nav-mobile-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: 1px solid var(--border);
+      color: #fff;
+      font-size: 1.8rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.25s, border-color 0.25s;
+    }
+    .nav-mobile-close:hover { color: var(--gold); border-color: var(--gold); }
 
     /* ═══ HERO ════════════════════════════════════════ */
     #hero {
@@ -333,19 +360,20 @@
     /* ═══ SECTION WRAPPER ═════════════════════════════ */
     #about    { background: var(--card); }
     #music    { background: var(--bg); position: relative; overflow: hidden; min-height: 56.25vw; }
-    .music-bg {
+    .music-video-wrap {
       position: absolute;
       inset: 0;
+    }
+    .music-bg {
+      display: block;
       width: 100%; height: 100%;
       object-fit: cover;
       object-position: center;
-      z-index: 0;
     }
     .music-overlay {
       position: absolute;
       inset: 0;
       background: rgba(10,10,10,0.55);
-      z-index: 1;
     }
     #music .inner {
       position: relative;
@@ -540,6 +568,7 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
+      margin-bottom: 24px;
     }
     .sound-icon { width: 20px; height: 20px; fill: currentColor; flex-shrink: 0; }
     .sound-icon-off { display: none; }
@@ -893,6 +922,9 @@
       .nav-hamburger {
         margin-right: 5px;
         flex-shrink: 0;
+        font-size: 52px;
+        height: 52px;
+        width: 52px;
       }
 
       /* 2. hero: natural photo aspect ratio, no excessive height */
@@ -920,10 +952,37 @@
       :root {
         --hero-logo-w-rest: 214px;
       }
+      .hero-logo { top: 30%; }
       .hero-content { margin-top: calc(60vh - 104px + 200px); }
       .hero-logo.docked {
         left: 95px;
       }
+
+      /* 3b. our sound: title above video, video contained, desc/button below */
+      #music {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+      .music-flow { display: contents; }
+      .music-header {
+        order: 1;
+        padding: 48px 20px 0;
+      }
+      .music-video-wrap {
+        order: 2;
+        position: relative;
+        inset: auto;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        margin-top: 24px;
+      }
+      .music-footer {
+        order: 3;
+        padding: 24px 20px 0;
+      }
+      .music-ticker { order: 4; position: relative; inset: auto; }
 
       /* 4. media card: stack image above content */
       .media-card { grid-template-columns: 1fr; }
@@ -931,6 +990,9 @@
       .media-card-body { padding: 32px 24px; align-items: center; text-align: center; }
       .media-card-body .sect-rule { justify-content: center; }
 
+
+      /* 5b. follow along: shift background image to the right */
+      #instagram { background-position: right center; }
 
       /* 6. socials: 2×2 grid, 4px gap */
       .follow-socials {
@@ -959,6 +1021,7 @@
   </nav>
 
   <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+    <button type="button" class="nav-mobile-close" aria-label="Close menu">&times;</button>
     <ul role="list">
       <li><a href="#about">About</a></li>
       <li><a href="#music">Music</a></li>
@@ -1032,19 +1095,25 @@
 
   <!-- ═══ MUSIC ════════════════════════════════════════ -->
   <section id="music" aria-labelledby="music-title">
-    <video class="music-bg" id="musicVideo" autoplay muted loop playsinline poster="eden-images/eden-zombie-kraken-poster.jpg" aria-hidden="true">
-      <source src="eden-images/eden-zombie-kraken.mp4" type="video/mp4">
-    </video>
-    <div class="music-overlay" aria-hidden="true"></div>
-    <div class="inner">
-      <h2 class="sect-title" id="music-title">Our Sound</h2>
-      <div class="sect-rule" aria-hidden="true"></div>
-      <p class="music-desc">We play a wide range of music, from original tracks to timeless covers. Whether it is Fleetwood Mac, AC/DC, or The Cranberries, the band guarantees a show that gets you moving.</p>
-      <button type="button" class="btn btn-outline sound-toggle" id="soundToggle" aria-pressed="false">
-        <svg class="sound-icon sound-icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-        <svg class="sound-icon sound-icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4L9.91 6.09 12 8.18V4zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 0 0 3.69-1.81L19.73 21 21 19.73 4.27 3zM19 12c0-.94-.2-1.82-.54-2.64l1.51 1.51c.34.82.53 1.72.53 2.68 0 1.5-.37 2.91-1.03 4.15l1.51 1.51C21.63 17.09 21 14.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zm-2.5 0a4.5 4.5 0 0 0-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.42.05-.63z"/></svg>
-        <span class="sound-toggle-label">Sound</span>
-      </button>
+    <div class="music-video-wrap">
+      <video class="music-bg" id="musicVideo" autoplay muted loop playsinline poster="eden-images/eden-zombie-kraken-poster.jpg" aria-hidden="true">
+        <source src="eden-images/eden-zombie-kraken.mp4" type="video/mp4">
+      </video>
+      <div class="music-overlay" aria-hidden="true"></div>
+    </div>
+    <div class="inner music-flow">
+      <div class="music-header">
+        <h2 class="sect-title" id="music-title">Our Sound</h2>
+        <div class="sect-rule" aria-hidden="true"></div>
+      </div>
+      <div class="music-footer">
+        <button type="button" class="btn btn-outline sound-toggle" id="soundToggle" aria-pressed="false">
+          <svg class="sound-icon sound-icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          <svg class="sound-icon sound-icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4L9.91 6.09 12 8.18V4zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 0 0 3.69-1.81L19.73 21 21 19.73 4.27 3zM19 12c0-.94-.2-1.82-.54-2.64l1.51 1.51c.34.82.53 1.72.53 2.68 0 1.5-.37 2.91-1.03 4.15l1.51 1.51C21.63 17.09 21 14.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zm-2.5 0a4.5 4.5 0 0 0-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.42.05-.63z"/></svg>
+          <span class="sound-toggle-label">Sound</span>
+        </button>
+        <p class="music-desc">We play a wide range of music, from original tracks to timeless covers. Whether it is Fleetwood Mac, AC/DC, or The Cranberries, the band guarantees a show that gets you moving.</p>
+      </div>
     </div>
     <a href="https://open.spotify.com/track/2xYmQCepznOmb9noqwPyTX?si=c32e0573ff1b47ea" target="_blank" rel="noopener noreferrer" class="sr-only">Listen to our newest release, &ldquo;Already Gone,&rdquo; on Spotify</a>
     <div class="music-ticker" aria-hidden="true">
@@ -1274,6 +1343,13 @@
     // hamburger
     const hamburger = document.querySelector('.nav-hamburger');
     const mobileNav = document.getElementById('nav-mobile');
+    function closeMobileNav() {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Open menu');
+      mobileNav.setAttribute('aria-hidden', 'true');
+    }
     hamburger.addEventListener('click', () => {
       const open = hamburger.classList.toggle('open');
       mobileNav.classList.toggle('open', open);
@@ -1281,12 +1357,8 @@
       hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       mobileNav.setAttribute('aria-hidden', !open);
     });
-    mobileNav.querySelectorAll('a').forEach(l => l.addEventListener('click', () => {
-      hamburger.classList.remove('open');
-      mobileNav.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-      mobileNav.setAttribute('aria-hidden', 'true');
-    }));
+    mobileNav.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMobileNav));
+    document.querySelector('.nav-mobile-close').addEventListener('click', closeMobileNav);
 
     // member bio modal
     const memberModal = document.getElementById('memberModal');
