@@ -7,7 +7,7 @@
   <meta name="description" content="Eden is a rock, blues, and pop band from the Pacific Northwest." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <style>
     /* ═══ TOKENS ══════════════════════════════════════ */
     :root {
@@ -28,7 +28,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Josefin Sans', sans-serif;
+      font-family: 'Barlow', sans-serif;
       background-color: var(--bg);
       background-image:
         repeating-linear-gradient( 45deg, rgba(192,192,192,0.035) 0, rgba(192,192,192,0.035) 1px, transparent 0, transparent 24px),
@@ -105,7 +105,7 @@
       align-items: center;
       justify-content: center;
       padding: 14px 38px;
-      font-family: 'Josefin Sans', sans-serif;
+      font-family: 'Barlow', sans-serif;
       font-size: 1rem;
       font-weight: 600;
       letter-spacing: 0.24em;
@@ -198,7 +198,7 @@
       padding: 0;
       cursor: pointer;
       color: var(--cream);
-      font-family: 'Josefin Sans', sans-serif;
+      font-family: 'Barlow', sans-serif;
       font-weight: 300;
       font-size: 38px;
       line-height: 1;
@@ -326,7 +326,12 @@
     /* ═══ SECTION WRAPPER ═════════════════════════════ */
     #about    { background: var(--card); }
     #music    { background: var(--bg); }
-    #shows    { background: var(--card); }
+    #shows    {
+      background-color: var(--card);
+      background-image:
+        repeating-linear-gradient( 45deg, rgba(192,192,192,0.07) 0, rgba(192,192,192,0.07) 1px, transparent 0, transparent 24px),
+        repeating-linear-gradient(-45deg, rgba(192,192,192,0.07) 0, rgba(192,192,192,0.07) 1px, transparent 0, transparent 24px);
+    }
     #reviews  { background: var(--bg); }
     #instagram { background: var(--card); }
     #contact  { background: var(--bg); }
@@ -344,10 +349,10 @@
       align-items: start;
     }
     .about-text p {
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1.9;
       color: rgba(242,240,228,0.72);
-      font-weight: 300;
+      font-weight: 700;
     }
     .about-members-label {
       font-size: 0.88rem;
@@ -392,10 +397,10 @@
 
     /* ═══ MUSIC ═══════════════════════════════════════ */
     .music-desc {
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1.9;
       color: rgba(242,240,228,0.7);
-      font-weight: 300;
+      font-weight: 700;
       max-width: 580px;
       margin-bottom: 48px;
     }
@@ -416,15 +421,32 @@
     .spotify-frame::after  { bottom: -4px; right: -4px; border-width: 0 2px 2px 0; }
 
     /* ═══ SHOWS ═══════════════════════════════════════ */
+    #shows .sect-label,
+    #shows .sect-title { color: #fff; }
     .shows-desc {
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1.9;
-      color: rgba(242,240,228,0.7);
-      font-weight: 300;
+      color: #fff;
+      font-weight: 700;
       max-width: 580px;
       margin-bottom: 48px;
     }
     .shows-cta { margin-top: 40px; }
+    .bit-widget-wrap {
+      background: rgba(242,240,228,0.5);
+      padding: 32px;
+      position: relative;
+    }
+    .bit-widget-wrap::before, .bit-widget-wrap::after {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.6;
+    }
+    .bit-widget-wrap::before { top: -4px; left: -4px; border-width: 2px 0 0 2px; }
+    .bit-widget-wrap::after  { bottom: -4px; right: -4px; border-width: 0 2px 2px 0; }
 
     /* ═══ MEDIA ═══════════════════════════════════════ */
     /* ═══ MEDIA MOSAIC ═══════════════════════════════ */
@@ -484,9 +506,9 @@
     }
     .media-overlay-content .sect-title { margin-bottom: 16px; }
     .media-caption {
-      font-size: 1.17rem;
+      font-size: 1.3rem;
       color: rgba(242,240,228,0.7);
-      font-weight: 300;
+      font-weight: 700;
       max-width: 400px;
       margin-bottom: 32px;
       line-height: 1.7;
@@ -542,11 +564,11 @@
       user-select: none;
     }
     .review-text {
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1.88;
       color: rgba(242,240,228,0.72);
       font-style: italic;
-      font-weight: 300;
+      font-weight: 700;
       margin-bottom: 28px;
     }
     .review-author {
@@ -667,7 +689,7 @@
       border: none;
       border-bottom: 2px solid rgba(192,192,192,0.3);
       color: var(--cream);
-      font-family: 'Josefin Sans', sans-serif;
+      font-family: 'Barlow', sans-serif;
       font-size: 1.235rem;
       font-weight: 300;
       padding: 10px 0;
@@ -866,7 +888,7 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="mobile-merch">
-      <a href="#" class="btn btn-outline">Merch</a>
+      <a href="#" class="btn btn-gold">Merch</a>
     </div>
   </div>
 
@@ -880,14 +902,14 @@
         <div class="deco-diamond" style="margin:0 18px;"></div>
       </div>
       <img src="images/eden-logo.png" alt="Eden" class="hero-logo" />
-      <p class="hero-tagline">Rock &bull; Blues &bull; Pop &bull; Pacific Northwest</p>
-      <p class="hero-subtext">Fronted by powerhouse vocalist Savanna Woods, a recent Top&nbsp;20 artist on NBC&#8217;s The Voice</p>
+      <p class="hero-tagline">Rock &bull; Blues &bull; Pop</p>
+      <p class="hero-subtext">The Pacific Northwest&#8217;s Premier Rock Band</p>
       <div class="hero-bottomline" aria-hidden="true">
         <div class="deco-line"></div>
         <div class="deco-diamond"></div>
         <div class="deco-line"></div>
       </div>
-      <a href="#contact" class="btn btn-gold">Book Eden for Your Event</a>
+      <a href="#shows" class="btn btn-gold">SHOWS</a>
     </div>
   </section>
 
@@ -962,18 +984,18 @@
            data-auto-style="false"
            data-widget-width="100%"
            data-lang="en"
-           data-font-color="#F2F0E4"
+           data-font-color="#0A0A0A"
            data-button-label="Get Tickets"
            data-button-type="link"
-           data-background-color="#141414"
+           data-background-color="#F2F0E4"
            data-separator-color="#C0C0C0"
-           data-link-color="#C0C0C0"
+           data-link-color="#0A0A0A"
            data-display-limit="5"
            href="https://www.bandsintown.com/a/15500141-band-of-eden?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=widget">
         </a>
       </div>
       <div class="shows-cta">
-        <a href="https://www.bandsintown.com/a/15500141-band-of-eden" target="_blank" rel="noopener noreferrer" class="btn btn-outline">All Shows</a>
+        <a href="https://www.bandsintown.com/a/15500141-band-of-eden" target="_blank" rel="noopener noreferrer" class="btn btn-gold">All Shows</a>
       </div>
       <script src="https://widget.bandsintown.com/main.min.js" charset="utf-8"></script>
     </div>
