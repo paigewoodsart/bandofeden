@@ -297,7 +297,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: calc(60vh - 132px);
+      margin-top: calc(60vh - 132px + 200px);
     }
 
     /* ═══ HERO LOGO — fixed from load; intro zoom-in, then scroll-docks to nav ═══ */
@@ -330,16 +330,23 @@
 
     .hero-cta {
       opacity: 0;
-      animation: heroCtaFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 3.4s forwards;
+      animation: heroCtaFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards,
+                 heroCtaGlow 2.2s ease-in-out 0.4s infinite;
+      font-size: 1.35rem;
+      padding: 22px 58px;
     }
     @keyframes heroCtaFadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+    @keyframes heroCtaGlow {
+      0%, 100% { box-shadow: 0 0 18px rgba(192,192,192,0.25); }
+      50%      { box-shadow: 0 0 38px rgba(192,192,192,0.7); }
+    }
 
     /* ═══ SECTION WRAPPER ═════════════════════════════ */
     #about    { background: var(--card); }
-    #music    { background: var(--bg); position: relative; overflow: hidden; }
+    #music    { background: var(--bg); position: relative; overflow: hidden; min-height: 56.25vw; }
     .music-bg {
       position: absolute;
       inset: 0;
@@ -359,12 +366,22 @@
       z-index: 2;
       margin: 0;
       max-width: 560px;
+      padding-bottom: 100px;
     }
     #shows    {
+      position: relative;
+      min-height: 130vh;
       background-color: var(--card);
-      background-image:
-        repeating-linear-gradient( 45deg, rgba(192,192,192,0.07) 0, rgba(192,192,192,0.07) 1px, transparent 0, transparent 24px),
-        repeating-linear-gradient(-45deg, rgba(192,192,192,0.07) 0, rgba(192,192,192,0.07) 1px, transparent 0, transparent 24px);
+      background-image: url('eden-images/eden-crowd-pic.jpg');
+      background-size: cover;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+    }
+    #shows .inner {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      max-height: 70%;
+      overflow: hidden;
     }
     #reviews  { background: var(--bg); }
     #instagram {
@@ -422,15 +439,113 @@
     .member-item:hover { padding-left: 14px; }
     .member-item:hover::before { opacity: 1; }
     .member-name {
+      background: none;
+      border: none;
+      padding: 0;
+      display: block;
+      text-align: left;
+      cursor: pointer;
       font-family: 'Marcellus', serif;
       font-size: 1.3rem;
       color: var(--cream);
       letter-spacing: 0.04em;
+      transition: color 0.25s;
     }
+    .member-name:hover,
+    .member-name:focus-visible { color: var(--gold); }
     .member-role {
       font-size: 17px;
       color: var(--muted);
       letter-spacing: 0.07em;
+    }
+
+    /* ═══ MEMBER BIO MODAL ═══════════════════════════════ */
+    .member-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .member-modal.is-open { display: flex; }
+    .member-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .member-modal-card {
+      position: relative;
+      z-index: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      max-width: 640px;
+      width: 100%;
+      max-height: 85vh;
+      overflow: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      opacity: 0;
+      transform: scale(0.94) translateY(12px);
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .member-modal.is-open .member-modal-card {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    .member-modal-photo {
+      width: 100%;
+      height: 100%;
+      min-height: 240px;
+      object-fit: cover;
+      display: block;
+    }
+    .member-modal-body {
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      justify-content: center;
+    }
+    .member-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      width: 36px;
+      height: 36px;
+      background: rgba(10,10,10,0.6);
+      border: 1px solid var(--border);
+      color: #fff;
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .member-modal-close:hover { color: var(--gold); border-color: var(--gold); }
+    .member-modal-name {
+      font-family: 'Marcellus', serif;
+      font-size: 1.8rem;
+      color: var(--cream);
+    }
+    .member-modal-role {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .member-modal-bio {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: rgba(242,240,228,0.75);
+      font-weight: 300;
     }
 
     /* ═══ MUSIC ═══════════════════════════════════════ */
@@ -442,21 +557,63 @@
       max-width: 580px;
       margin-bottom: 48px;
     }
-    .spotify-frame {
-      border: 1px solid var(--border);
-      padding: 2px;
-      position: relative;
+    .sound-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
     }
-    .spotify-frame::before, .spotify-frame::after {
-      content: '';
+    .sound-icon { width: 20px; height: 20px; fill: currentColor; flex-shrink: 0; }
+    .sound-icon-off { display: none; }
+    .sound-toggle[aria-pressed="true"] .sound-icon-on  { display: none; }
+    .sound-toggle[aria-pressed="true"] .sound-icon-off { display: block; }
+
+    /* ═══ MUSIC TICKER ════════════════════════════════ */
+    .music-ticker {
       position: absolute;
-      width: 18px; height: 18px;
-      border-color: var(--gold);
-      border-style: solid;
-      opacity: 0.6;
+      left: 0; right: 0; bottom: 0;
+      z-index: 3;
+      background: #000;
+      overflow: hidden;
+      white-space: nowrap;
     }
-    .spotify-frame::before { top: -4px; left: -4px; border-width: 2px 0 0 2px; }
-    .spotify-frame::after  { bottom: -4px; right: -4px; border-width: 0 2px 2px 0; }
+    .music-ticker-track {
+      display: inline-flex;
+      animation: musicTickerScroll 12s linear infinite;
+    }
+    .music-ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 32px;
+      font-family: 'Marcellus', serif;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #fff;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: color 0.25s;
+    }
+    .music-ticker-item:hover { color: var(--gold); }
+    .music-ticker-spotify {
+      display: inline-flex;
+    }
+    .music-ticker-spotify svg { width: 22px; height: 22px; fill: currentColor; }
+    @keyframes musicTickerScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* visually hidden but accessible */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
 
     /* ═══ SHOWS ═══════════════════════════════════════ */
     #shows .sect-label,
@@ -469,7 +626,11 @@
       max-width: 580px;
       margin-bottom: 48px;
     }
-    .shows-cta { margin-top: 40px; }
+    .shows-cta { margin-top: 100px; }
+    .shows-cta .btn {
+      font-size: 1.2rem;
+      padding: 17px 46px;
+    }
     .bit-widget-wrap {
       background: rgba(242,240,228,0.5);
       padding: 32px;
@@ -868,13 +1029,16 @@
       .inner { padding: 64px 20px; }
       .nav-links, .nav-merch { display: none; }
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .member-modal-card { grid-template-columns: 1fr; }
+      .member-modal-photo { min-height: 200px; }
+      .member-modal-body { padding: 28px 24px; }
       .form-grid { grid-template-columns: 1fr; }
       .form-group.full { grid-column: auto; }
 
       :root {
         --hero-logo-w-rest: 214px;
       }
-      .hero-content { margin-top: calc(60vh - 104px); }
+      .hero-content { margin-top: calc(60vh - 104px + 200px); }
       .hero-logo.docked {
         left: 95px;
       }
@@ -963,19 +1127,19 @@
           <p class="about-members-label">The Band</p>
           <ul role="list">
             <li class="member-item">
-              <span class="member-name">Savanna Woods</span>
-              <span class="member-role">Vocals &nbsp;&middot;&nbsp; Top 20, NBC&#8217;s The Voice</span>
+              <button type="button" class="member-name" data-photo="eden-images/savanna-bio.jpg" data-role="Vocals &amp; Guitar">Savanna Woods</button>
+              <span class="member-role">Vocals &amp; Guitar</span>
             </li>
             <li class="member-item">
-              <span class="member-name">Aaron Hiebert</span>
-              <span class="member-role">Electric Guitar</span>
+              <button type="button" class="member-name" data-photo="eden-images/aaron-bio.jpg" data-role="Lead Guitar &amp; Vocals">Aaron Hiebert</button>
+              <span class="member-role">Lead Guitar &amp; Vocals</span>
             </li>
             <li class="member-item">
-              <span class="member-name">Jason Edwards</span>
+              <button type="button" class="member-name" data-photo="eden-images/jason-bio.jpg" data-role="Drums">Jason Edwards</button>
               <span class="member-role">Drums</span>
             </li>
             <li class="member-item">
-              <span class="member-name">Ethan Gibbons</span>
+              <button type="button" class="member-name" data-photo="eden-images/ethan-bio.jpg" data-role="Bass">Ethan Gibbons</button>
               <span class="member-role">Bass</span>
             </li>
           </ul>
@@ -984,24 +1148,49 @@
     </div>
   </section>
 
+  <!-- ═══ MEMBER BIO MODAL ═══════════════════════════════ -->
+  <div class="member-modal" id="memberModal" role="dialog" aria-modal="true" aria-labelledby="memberModalName" aria-hidden="true">
+    <div class="member-modal-backdrop" data-member-close></div>
+    <div class="member-modal-card">
+      <button type="button" class="member-modal-close" aria-label="Close" data-member-close>&times;</button>
+      <img class="member-modal-photo" id="memberModalPhoto" src="" alt="" />
+      <div class="member-modal-body">
+        <h3 class="member-modal-name" id="memberModalName"></h3>
+        <p class="member-modal-role" id="memberModalRole"></p>
+        <p class="member-modal-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══ MUSIC ════════════════════════════════════════ -->
   <section id="music" aria-labelledby="music-title">
-    <video class="music-bg" autoplay muted loop playsinline poster="eden-images/eden-zombie-kraken-poster.jpg" aria-hidden="true">
+    <video class="music-bg" id="musicVideo" autoplay muted loop playsinline poster="eden-images/eden-zombie-kraken-poster.jpg" aria-hidden="true">
       <source src="eden-zombie-kraken.MOV">
     </video>
     <div class="music-overlay" aria-hidden="true"></div>
     <div class="inner">
       <h2 class="sect-title" id="music-title">Our Sound</h2>
       <div class="sect-rule" aria-hidden="true"></div>
-      <p class="music-desc">Eden plays a wide range of music, from original tracks to timeless covers. Whether it is Fleetwood Mac, AC/DC, or Stevie Ray Vaughan, the band guarantees a show that gets you moving.</p>
-      <div class="spotify-frame">
-        <iframe
-          style="border-radius:0; display:block;"
-          src="https://open.spotify.com/embed/artist/3MVi8s3VCXBQfafggFGbsp?utm_source=generator&theme=0"
-          width="100%" height="352" frameBorder="0" allowfullscreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy" title="Eden on Spotify">
-        </iframe>
+      <p class="music-desc">We play a wide range of music, from original tracks to timeless covers. Whether it is Fleetwood Mac, AC/DC, or The Cranberries, the band guarantees a show that gets you moving.</p>
+      <button type="button" class="btn btn-outline sound-toggle" id="soundToggle" aria-pressed="false">
+        <svg class="sound-icon sound-icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+        <svg class="sound-icon sound-icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4L9.91 6.09 12 8.18V4zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 0 0 3.69-1.81L19.73 21 21 19.73 4.27 3zM19 12c0-.94-.2-1.82-.54-2.64l1.51 1.51c.34.82.53 1.72.53 2.68 0 1.5-.37 2.91-1.03 4.15l1.51 1.51C21.63 17.09 21 14.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zm-2.5 0a4.5 4.5 0 0 0-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.42.05-.63z"/></svg>
+        <span class="sound-toggle-label">Sound</span>
+      </button>
+    </div>
+    <a href="https://open.spotify.com/track/2xYmQCepznOmb9noqwPyTX?si=c32e0573ff1b47ea" target="_blank" rel="noopener noreferrer" class="sr-only">Listen to our newest release, &ldquo;Already Gone,&rdquo; on Spotify</a>
+    <div class="music-ticker" aria-hidden="true">
+      <div class="music-ticker-track">
+        <a href="https://open.spotify.com/track/2xYmQCepznOmb9noqwPyTX?si=c32e0573ff1b47ea" target="_blank" rel="noopener noreferrer" class="music-ticker-item" tabindex="-1">Listen to our newest release &ldquo;Already Gone&rdquo;<span class="music-ticker-spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span></a>
+        <a href="https://open.spotify.com/track/2xYmQCepznOmb9noqwPyTX?si=c32e0573ff1b47ea" target="_blank" rel="noopener noreferrer" class="music-ticker-item" tabindex="-1">Listen to our newest release &ldquo;Already Gone&rdquo;<span class="music-ticker-spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span></a>
+        <a href="https://open.spotify.com/track/2xYmQCepznOmb9noqwPyTX?si=c32e0573ff1b47ea" target="_blank" rel="noopener noreferrer" class="music-ticker-item" tabindex="-1">Listen to our newest release &ldquo;Already Gone&rdquo;<span class="music-ticker-spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span></a>
+        <a href="https://open.spotify.com/track/2xYmQCepznOmb9noqwPyTX?si=c32e0573ff1b47ea" target="_blank" rel="noopener noreferrer" class="music-ticker-item" tabindex="-1">Listen to our newest release &ldquo;Already Gone&rdquo;<span class="music-ticker-spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span></a>
+      </div>
+      <div class="music-ticker-track" aria-hidden="true">
+        <a href="https://open.spotify.com/track/2xYmQCepznOmb9noqwPyTX?si=c32e0573ff1b47ea" target="_blank" rel="noopener noreferrer" class="music-ticker-item" tabindex="-1">Listen to our newest release &ldquo;Already Gone&rdquo;<span class="music-ticker-spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span></a>
+        <a href="https://open.spotify.com/track/2xYmQCepznOmb9noqwPyTX?si=c32e0573ff1b47ea" target="_blank" rel="noopener noreferrer" class="music-ticker-item" tabindex="-1">Listen to our newest release &ldquo;Already Gone&rdquo;<span class="music-ticker-spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span></a>
+        <a href="https://open.spotify.com/track/2xYmQCepznOmb9noqwPyTX?si=c32e0573ff1b47ea" target="_blank" rel="noopener noreferrer" class="music-ticker-item" tabindex="-1">Listen to our newest release &ldquo;Already Gone&rdquo;<span class="music-ticker-spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span></a>
+        <a href="https://open.spotify.com/track/2xYmQCepznOmb9noqwPyTX?si=c32e0573ff1b47ea" target="_blank" rel="noopener noreferrer" class="music-ticker-item" tabindex="-1">Listen to our newest release &ldquo;Already Gone&rdquo;<span class="music-ticker-spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span></a>
       </div>
     </div>
   </section>
@@ -1281,6 +1470,47 @@
       hamburger.setAttribute('aria-expanded', 'false');
       mobileNav.setAttribute('aria-hidden', 'true');
     }));
+
+    // member bio modal
+    const memberModal = document.getElementById('memberModal');
+    const memberModalPhoto = document.getElementById('memberModalPhoto');
+    const memberModalName = document.getElementById('memberModalName');
+    const memberModalRole = document.getElementById('memberModalRole');
+    let lastMemberTrigger = null;
+
+    function openMemberModal(btn) {
+      memberModalPhoto.src = btn.dataset.photo;
+      memberModalPhoto.alt = btn.textContent.trim();
+      memberModalName.textContent = btn.textContent.trim();
+      memberModalRole.innerHTML = btn.dataset.role;
+      memberModal.classList.add('is-open');
+      memberModal.setAttribute('aria-hidden', 'false');
+      lastMemberTrigger = btn;
+    }
+    function closeMemberModal() {
+      memberModal.classList.remove('is-open');
+      memberModal.setAttribute('aria-hidden', 'true');
+      if (lastMemberTrigger) lastMemberTrigger.focus();
+    }
+    document.querySelectorAll('.member-name').forEach(btn => {
+      btn.addEventListener('click', () => openMemberModal(btn));
+    });
+    memberModal.querySelectorAll('[data-member-close]').forEach(el => {
+      el.addEventListener('click', closeMemberModal);
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && memberModal.classList.contains('is-open')) closeMemberModal();
+    });
+
+    // music sound toggle
+    const soundToggle = document.getElementById('soundToggle');
+    const musicVideo = document.getElementById('musicVideo');
+    soundToggle.addEventListener('click', () => {
+      musicVideo.muted = !musicVideo.muted;
+      const on = !musicVideo.muted;
+      soundToggle.setAttribute('aria-pressed', on);
+      soundToggle.querySelector('.sound-toggle-label').textContent = on ? 'Mute' : 'Sound';
+    });
 
     // reviews carousel
     (function () {
