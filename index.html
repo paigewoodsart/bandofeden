@@ -3,8 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eden Band</title>
-  <meta name="description" content="Eden is a rock, blues, and pop band from the Pacific Northwest." />
+  <title>Band of Eden</title>
+  <meta name="description" content="Band of Eden is a rock, blues, and pop band from the Pacific Northwest." />
+  <meta property="og:title" content="Band of Eden" />
+  <meta property="og:description" content="Band of Eden is a rock, blues, and pop band from the Pacific Northwest." />
+  <meta property="og:image" content="eden-images/eden-social-share.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Band of Eden" />
+  <meta name="twitter:description" content="Band of Eden is a rock, blues, and pop band from the Pacific Northwest." />
+  <meta name="twitter:image" content="eden-images/eden-social-share.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet" />
@@ -117,21 +125,6 @@
     .sect-label.in-view { transform: translateY(0); }
     .sect-title.in-view { transform: translateY(0); }
     .sect-rule.in-view { transform: scaleX(1); }
-
-    /* decorative diamond ◆ */
-    .deco-diamond {
-      display: inline-block;
-      width: 7px; height: 7px;
-      background: var(--gold);
-      transform: rotate(45deg);
-      flex-shrink: 0;
-    }
-    /* generic flex line */
-    .deco-line {
-      flex: 1;
-      height: 1px;
-      background: rgba(192,192,192,0.45);
-    }
 
     /* ═══ BUTTONS ═════════════════════════════════════ */
     .btn {
@@ -358,7 +351,7 @@
     }
 
     /* ═══ SECTION WRAPPER ═════════════════════════════ */
-    #about    { background: var(--card); }
+    #about    { background: #000; }
     #music    { background: var(--bg); position: relative; overflow: hidden; min-height: 56.25vw; }
     .music-video-wrap {
       position: absolute;
@@ -819,7 +812,7 @@
 
     /* ═══ FOOTER ═════════════════════════════════════ */
     footer {
-      background: var(--card);
+      background: #000;
       border-top: 1px solid var(--border);
       padding: 56px 32px 40px;
     }
@@ -832,37 +825,7 @@
       gap: 32px;
       text-align: center;
     }
-    .footer-rule {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 0;
-    }
-    .footer-rule::before {
-      content: ''; flex: 1; height: 1px;
-      background: linear-gradient(to right, transparent, rgba(192,192,192,0.4));
-    }
-    .footer-rule::after {
-      content: ''; flex: 1; height: 1px;
-      background: linear-gradient(to left, transparent, rgba(192,192,192,0.4));
-    }
-    .footer-rule .deco-diamond { margin: 0 20px; }
-    .footer-logo img { height: 34px; }
-    .footer-nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px 28px;
-    }
-    .footer-nav a {
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--muted);
-      transition: color 0.3s;
-    }
-    .footer-nav a:hover { color: var(--gold); }
+    .footer-logo img { height: 56px; }
     .footer-socials {
       display: flex;
       gap: 14px;
@@ -879,29 +842,42 @@
     }
     .footer-socials a:hover { border-color: var(--gold); color: var(--gold); box-shadow: var(--glow); }
     .footer-socials svg { width: 16px; height: 16px; fill: currentColor; }
+    .footer-quote {
+      font-family: 'Marcellus', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--cream);
+      max-width: 480px;
+      line-height: 1.5;
+    }
+    .footer-quote cite {
+      display: block;
+      font-family: 'Barlow', sans-serif;
+      font-style: normal;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 14px;
+    }
     .footer-copy {
       font-size: 16px;
       color: rgba(136,136,136,0.5);
       letter-spacing: 0.1em;
     }
-    .disclaimer-bar {
-      background: #ffffff;
-      padding: 16px 24px;
-      text-align: center;
+    .footer-credit {
+      font-size: 14px;
+      color: rgba(136,136,136,0.5);
+      letter-spacing: 0.06em;
     }
-    .disclaimer-bar p {
-      font-size: 12px;
-      color: #444;
-      line-height: 1.6;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .disclaimer-bar a {
-      color: #9b59b6;
+    .footer-credit a {
+      color: var(--muted);
       text-decoration: underline;
-      text-underline-offset: 2px;
+      text-underline-offset: 3px;
+      transition: color 0.3s;
     }
-    .disclaimer-bar a:hover { color: #7d3c98; }
+    .footer-credit a:hover { color: var(--gold); }
 
     /* hamburger hidden on desktop — shown by default everywhere else */
     @media (min-width: 801px) {
@@ -1269,21 +1245,9 @@
   <!-- ═══ FOOTER ════════════════════════════════════════ -->
   <footer>
     <div class="footer-inner">
-      <div class="footer-rule" aria-hidden="true">
-        <div class="deco-diamond" style="margin:0 20px;"></div>
-      </div>
       <a href="#hero" class="footer-logo" aria-label="Eden — back to top">
         <img src="images/eden-logo.png" alt="Eden" />
       </a>
-      <nav aria-label="Footer navigation">
-        <ul class="footer-nav" role="list">
-          <li><a href="#about">About</a></li>
-          <li><a href="#music">Music</a></li>
-          <li><a href="#shows">Shows</a></li>
-          <li><a href="#media">Media</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
       <div class="footer-socials" aria-label="Social media links">
         <a href="https://www.facebook.com/bandofeden" target="_blank" rel="noopener noreferrer" aria-label="Eden on Facebook">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -1298,13 +1262,15 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
         </a>
       </div>
-      <p class="footer-copy">&copy; <span id="footer-year">2026</span> Eden Band. All Rights Reserved.</p>
+      <blockquote class="footer-quote">
+        <p>&ldquo;Follow your heart and take big risks.&rdquo;</p>
+        <cite>Savanna Woods</cite>
+      </blockquote>
+      <p class="footer-copy">&copy; <span id="footer-year">2026</span> Band of Eden. All Rights Reserved.</p>
+      <p class="footer-credit">All photo and video footage courtesy of <a href="https://www.rmvpro.com" target="_blank" rel="noopener noreferrer">Ryan Miller</a></p>
+      <p class="footer-credit">Created by <a href="https://paigewoods.vercel.app/" target="_blank" rel="noopener noreferrer">Paige Woods</a></p>
     </div>
   </footer>
-
-  <div class="disclaimer-bar">
-    <p>This is a design template created by <a href="https://www.paigewoods.com" target="_blank" rel="noopener noreferrer">Paige Woods</a>. All names, copy, and imagery are for demonstration purposes only and do not represent a real band or entity.</p>
-  </div>
 
   <script>
     // nav scroll-reveal + hero-logo swoosh dock
