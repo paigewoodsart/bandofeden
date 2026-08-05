@@ -369,7 +369,9 @@
       padding-bottom: 100px;
     }
     #shows    {
-      position: relative;
+      position: sticky;
+      top: 0;
+      z-index: 1;
       min-height: 116.25vw;
       background-color: var(--card);
       background-image: url('eden-images/eden-crowd-pic.jpg');
@@ -640,7 +642,12 @@
 
     /* ═══ MEDIA ═══════════════════════════════════════ */
     /* ═══ MEDIA KIT CARD ══════════════════════════════ */
-    #media { background: var(--bg); }
+    #media {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--bg);
+    }
     .media-card {
       display: grid;
       grid-template-columns: 1fr 1fr;
