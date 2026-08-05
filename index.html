@@ -84,6 +84,36 @@
       height: 1px;
       background: linear-gradient(to right, rgba(192,192,192,0.45), transparent);
     }
+
+    /* ═══ SECTION HEADER REVEAL — quiet, deliberate entrance ═══ */
+    .sect-label {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sect-title {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transition-delay: 0.06s;
+    }
+    .sect-rule {
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: opacity 0.2s ease,
+                  transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+      transition-delay: 0.16s;
+    }
+    .sect-label.in-view,
+    .sect-title.in-view,
+    .sect-rule.in-view { opacity: 1; }
+    .sect-label.in-view { transform: translateY(0); }
+    .sect-title.in-view { transform: translateY(0); }
+    .sect-rule.in-view { transform: scaleX(1); }
+
     /* decorative diamond ◆ */
     .deco-diamond {
       display: inline-block;
@@ -1217,6 +1247,17 @@
       });
     }, { rootMargin: '-40% 0px -55% 0px' });
     document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+
+    // section header reveal
+    const headerObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in-view');
+          headerObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('.sect-label, .sect-title, .sect-rule').forEach(el => headerObserver.observe(el));
 
     // hamburger
     const hamburger = document.querySelector('.nav-hamburger');
