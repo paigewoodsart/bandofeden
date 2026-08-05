@@ -297,13 +297,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: calc(50vh - 34px);
+      margin-top: calc(60vh - 132px);
     }
 
     /* ═══ HERO LOGO — fixed from load; intro zoom-in, then scroll-docks to nav ═══ */
     .hero-logo {
       position: fixed;
-      top: 50%;
+      top: 40%;
       left: 50%;
       width: var(--hero-logo-w-rest);
       height: auto;
@@ -339,7 +339,27 @@
 
     /* ═══ SECTION WRAPPER ═════════════════════════════ */
     #about    { background: var(--card); }
-    #music    { background: var(--bg); }
+    #music    { background: var(--bg); position: relative; overflow: hidden; }
+    .music-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+    .music-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,10,10,0.55);
+      z-index: 1;
+    }
+    #music .inner {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      max-width: 560px;
+    }
     #shows    {
       background-color: var(--card);
       background-image:
@@ -347,7 +367,11 @@
         repeating-linear-gradient(-45deg, rgba(192,192,192,0.07) 0, rgba(192,192,192,0.07) 1px, transparent 0, transparent 24px);
     }
     #reviews  { background: var(--bg); }
-    #instagram { background: var(--card); }
+    #instagram {
+      background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('eden-images/eden-socialmedia-background.jpg');
+      background-size: cover;
+      background-position: center;
+    }
     #contact  { background: var(--bg); }
     .inner {
       max-width: var(--max);
@@ -810,6 +834,7 @@
     /* hamburger hidden on desktop — shown by default everywhere else */
     @media (min-width: 801px) {
       .nav-hamburger { display: none; }
+      :root { --hero-logo-w-landing: 184vw; }
     }
 
     /* ═══ RESPONSIVE ══════════════════════════════════ */
@@ -849,7 +874,7 @@
       :root {
         --hero-logo-w-rest: 214px;
       }
-      .hero-content { margin-top: calc(50vh - 40px); }
+      .hero-content { margin-top: calc(60vh - 104px); }
       .hero-logo.docked {
         left: 95px;
       }
@@ -915,7 +940,9 @@
 
   <!-- ═══ HERO ════════════════════════════════════════ -->
   <section id="hero" aria-label="Hero">
-    <img src="eden-images/eden-brodienation-26-rmv.jpg" alt="" class="hero-img" aria-hidden="true" fetchpriority="high" />
+    <video class="hero-img" autoplay muted loop playsinline poster="eden-images/eden-brodienation-26-rmv.jpg" aria-hidden="true">
+      <source src="Website Banner Brodie copy.mp4" type="video/mp4">
+    </video>
     <div class="hero-content">
       <a href="#shows" class="btn btn-gold hero-cta">SHOWS</a>
     </div>
@@ -926,7 +953,6 @@
     <div class="inner">
       <div class="about-grid">
         <div>
-          <span class="sect-label" aria-hidden="true">I</span>
           <h2 class="sect-title" id="about-title">About Eden</h2>
           <div class="sect-rule" aria-hidden="true"></div>
           <div class="about-text">
@@ -960,8 +986,11 @@
 
   <!-- ═══ MUSIC ════════════════════════════════════════ -->
   <section id="music" aria-labelledby="music-title">
+    <video class="music-bg" autoplay muted loop playsinline poster="eden-images/eden-zombie-kraken-poster.jpg" aria-hidden="true">
+      <source src="eden-zombie-kraken.MOV">
+    </video>
+    <div class="music-overlay" aria-hidden="true"></div>
     <div class="inner">
-      <span class="sect-label" aria-hidden="true">II</span>
       <h2 class="sect-title" id="music-title">Our Sound</h2>
       <div class="sect-rule" aria-hidden="true"></div>
       <p class="music-desc">Eden plays a wide range of music, from original tracks to timeless covers. Whether it is Fleetwood Mac, AC/DC, or Stevie Ray Vaughan, the band guarantees a show that gets you moving.</p>
@@ -980,7 +1009,6 @@
   <!-- ═══ SHOWS ════════════════════════════════════════ -->
   <section id="shows" aria-labelledby="shows-title">
     <div class="inner">
-      <span class="sect-label" aria-hidden="true">III</span>
       <h2 class="sect-title" id="shows-title">Live Shows</h2>
       <div class="sect-rule" aria-hidden="true"></div>
       <p class="shows-desc">Experience Eden live and feel the energy for yourself. Perfect for clubs, festivals, and private events.</p>
@@ -1026,7 +1054,6 @@
       <div class="mosaic-item"><img src="eden-images/img_1323.jpg" alt="" /></div>
     </div>
     <div class="media-overlay-content">
-      <span class="sect-label" aria-hidden="true">IV</span>
       <h2 class="sect-title" id="media-title">Media Kit</h2>
       <div class="sect-rule" aria-hidden="true"></div>
       <p class="media-caption">Professional photos, bios, and press materials available for download.</p>
@@ -1038,7 +1065,6 @@
   <!-- ═══ REVIEWS ══════════════════════════════════════ -->
   <section id="reviews" aria-labelledby="reviews-title">
     <div class="inner">
-      <span class="sect-label" aria-hidden="true">V</span>
       <h2 class="sect-title" id="reviews-title">What People Are Saying</h2>
       <div class="sect-rule" aria-hidden="true"></div>
       <div class="reviews-carousel-wrap" role="region" aria-label="Reviews">
@@ -1079,7 +1105,6 @@
   <!-- ═══ INSTAGRAM ═════════════════════════════════════ -->
   <section id="instagram" aria-labelledby="instagram-title">
     <div class="inner">
-      <span class="sect-label" aria-hidden="true">VI</span>
       <h2 class="sect-title" id="instagram-title">Follow Along</h2>
       <div class="sect-rule" aria-hidden="true"></div>
       <!-- INSTAGRAM EMBED: Replace .follow-socials block with LightWidget or Behold embed code when ready -->
@@ -1122,7 +1147,6 @@
   <!-- ═══ CONTACT ═══════════════════════════════════════ -->
   <section id="contact" aria-labelledby="contact-title">
     <div class="inner">
-      <span class="sect-label" aria-hidden="true">VII</span>
       <h2 class="sect-title" id="contact-title">Get in Touch</h2>
       <div class="sect-rule" aria-hidden="true"></div>
       <p class="contact-desc">For bookings, press inquiries, or fan messages, reach out below and we will get back to you shortly.</p>
