@@ -210,19 +210,6 @@
       transition: color 0.3s;
     }
     .nav-links a:hover, .nav-links a.active { color: var(--gold); }
-    .nav-merch a {
-      display: inline-flex;
-      align-items: center;
-      padding: 8px 20px;
-      border: 2px solid #fff;
-      font-size: 0.91rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #fff;
-      transition: background 0.3s, color 0.3s;
-    }
-    .nav-merch a:hover { background: var(--gold); color: var(--bg); }
     .nav-hamburger {
       display: flex;
       align-items: center;
@@ -261,7 +248,6 @@
       color: #fff;
     }
     .nav-mobile a:hover { color: var(--gold); }
-    .nav-mobile .mobile-merch { margin-top: 32px; }
 
     /* ═══ HERO ════════════════════════════════════════ */
     #hero {
@@ -930,7 +916,7 @@
 
       /* general layout — 20px side margins for all text sections */
       .inner { padding: 64px 20px; }
-      .nav-links, .nav-merch { display: none; }
+      .nav-links { display: none; }
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
       .member-modal-card { grid-template-columns: 1fr; }
       .member-modal-photo { min-height: 200px; }
@@ -975,10 +961,6 @@
         <li><a href="#media">Media</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <div class="nav-merch">
-        <!-- MERCH LINK: replace href="#" with merchandise store URL when available -->
-        <a href="#" aria-label="Shop Eden merchandise">Merch</a>
-      </div>
       <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">+</button>
     </div>
   </nav>
@@ -991,9 +973,6 @@
       <li><a href="#media">Media</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <div class="mobile-merch">
-      <a href="#" class="btn btn-gold">Merch</a>
-    </div>
   </div>
 
   <img src="images/eden-logo.png" alt="Eden" class="hero-logo" id="hero-logo" />
