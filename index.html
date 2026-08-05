@@ -206,7 +206,7 @@
       font-weight: 600;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: #fff;
       transition: color 0.3s;
     }
     .nav-links a:hover, .nav-links a.active { color: var(--gold); }
@@ -214,12 +214,12 @@
       display: inline-flex;
       align-items: center;
       padding: 8px 20px;
-      border: 2px solid var(--gold);
+      border: 2px solid #fff;
       font-size: 0.91rem;
       font-weight: 600;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: #fff;
       transition: background 0.3s, color 0.3s;
     }
     .nav-merch a:hover { background: var(--gold); color: var(--bg); }
@@ -258,7 +258,7 @@
       font-weight: 600;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: #fff;
     }
     .nav-mobile a:hover { color: var(--gold); }
     .nav-mobile .mobile-merch { margin-top: 32px; }
@@ -370,20 +370,13 @@
     }
     #shows    {
       position: relative;
-      min-height: 130vh;
+      min-height: 116.25vw;
       background-color: var(--card);
       background-image: url('eden-images/eden-crowd-pic.jpg');
       background-size: cover;
-      background-position: center bottom;
+      background-position: center;
       background-repeat: no-repeat;
     }
-    #shows .inner {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      max-height: 70%;
-      overflow: hidden;
-    }
-    #reviews  { background: var(--bg); }
     #instagram {
       background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('eden-images/eden-socialmedia-background.jpg');
       background-size: cover;
@@ -626,15 +619,11 @@
       max-width: 580px;
       margin-bottom: 48px;
     }
-    .shows-cta { margin-top: 100px; }
-    .shows-cta .btn {
-      font-size: 1.2rem;
-      padding: 17px 46px;
-    }
     .bit-widget-wrap {
-      background: rgba(242,240,228,0.5);
+      background: var(--cream);
       padding: 32px;
       position: relative;
+      max-width: 640px;
     }
     .bit-widget-wrap::before, .bit-widget-wrap::after {
       content: '';
@@ -648,62 +637,31 @@
     .bit-widget-wrap::after  { bottom: -4px; right: -4px; border-width: 0 2px 2px 0; }
 
     /* ═══ MEDIA ═══════════════════════════════════════ */
-    /* ═══ MEDIA MOSAIC ═══════════════════════════════ */
-    #media { position: relative; }
-    .media-mosaic {
+    /* ═══ MEDIA KIT CARD ══════════════════════════════ */
+    #media { background: var(--bg); }
+    .media-card {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: 200px;
-      gap: 0;
-      line-height: 0;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border);
+      background: var(--card);
     }
-    .mosaic-item { overflow: hidden; position: relative; }
-    .mosaic-item img {
-      width: 100%; height: 100%;
+    .media-card-image { overflow: hidden; }
+    .media-card-image img {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
       object-fit: cover;
       display: block;
     }
-    /* mosaic span pattern: 4 cols per row */
-    .mosaic-item:nth-child(1)  { grid-column: span 2; }
-    .mosaic-item:nth-child(5)  { grid-column: span 2; }
-    .mosaic-item:nth-child(9)  { grid-column: span 2; }
-    .mosaic-item:nth-child(10) { grid-column: span 2; }
-    /* 12 items fills 4 rows evenly */
-    /* ken burns variants */
-    @keyframes kb-a { 0% { transform: scale(1) translate(0,0); }     100% { transform: scale(1.12) translate(-2%,-1%); } }
-    @keyframes kb-b { 0% { transform: scale(1.1) translate(2%,1%); } 100% { transform: scale(1) translate(0,0); } }
-    @keyframes kb-c { 0% { transform: scale(1) translate(-2%,1%); }  100% { transform: scale(1.1) translate(2%,-1%); } }
-    @keyframes kb-d { 0% { transform: scale(1.08) translate(1%,-2%); } 100% { transform: scale(1) translate(-1%,2%); } }
-    .mosaic-item:nth-child(4n+1) img { animation: kb-a 18s ease-in-out infinite alternate; }
-    .mosaic-item:nth-child(4n+2) img { animation: kb-b 22s ease-in-out infinite alternate; }
-    .mosaic-item:nth-child(4n+3) img { animation: kb-c 20s ease-in-out infinite alternate; }
-    .mosaic-item:nth-child(4n+4) img { animation: kb-d 24s ease-in-out infinite alternate; }
-    /* content overlay */
-    .media-overlay-content {
-      position: absolute;
-      inset: 0;
+    .media-card-body {
+      padding: 56px 48px;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      background: rgba(10,10,10,0.52);
-      text-align: center;
-      padding: 48px 32px;
+      text-align: left;
     }
-    .media-overlay-content .sect-rule {
-      justify-content: center;
-      margin-bottom: 24px;
-    }
-    .media-overlay-content .sect-rule::before {
-      width: 48px;
-      background: linear-gradient(to right, transparent, var(--gold));
-    }
-    .media-overlay-content .sect-rule::after {
-      flex: none;
-      width: 48px;
-      background: linear-gradient(to left, transparent, var(--gold));
-    }
-    .media-overlay-content .sect-title { margin-bottom: 16px; }
+    .media-card-body .sect-rule { margin-bottom: 24px; }
     .media-caption {
       font-size: 1.3rem;
       color: rgba(242,240,228,0.7);
@@ -713,70 +671,6 @@
       line-height: 1.7;
     }
 
-    /* ═══ REVIEWS ════════════════════════════════════ */
-    .reviews-carousel-wrap {
-      position: relative;
-    }
-    /* single merged block — no duplicate */
-    .review-card {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 48px 40px 40px;
-      opacity: 0;
-      transform: translateX(56px);
-      pointer-events: none;
-      transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.4s, box-shadow 0.4s;
-    }
-    .review-card.is-active {
-      opacity: 1;
-      transform: translateX(0);
-      pointer-events: auto;
-      border-color: rgba(192,192,192,0.5);
-      box-shadow: var(--glow);
-    }
-    .review-card.is-exiting {
-      opacity: 0;
-      transform: translateX(-56px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-    .review-card::before, .review-card::after {
-      content: '';
-      position: absolute;
-      width: 18px; height: 18px;
-      border-color: var(--gold);
-      border-style: solid;
-      opacity: 0.45;
-      transition: opacity 0.4s;
-    }
-    .review-card::before { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
-    .review-card::after  { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
-    .review-card.is-active::before, .review-card.is-active::after { opacity: 1; }
-    .review-quote {
-      font-family: 'Marcellus', serif;
-      font-size: 5rem;
-      line-height: 1;
-      color: var(--gold);
-      opacity: 0.3;
-      margin-bottom: 4px;
-      user-select: none;
-    }
-    .review-text {
-      font-size: 20px;
-      line-height: 1.88;
-      color: rgba(242,240,228,0.72);
-      font-style: italic;
-      font-weight: 700;
-      margin-bottom: 28px;
-    }
-    .review-author {
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
 
     /* ═══ INSTAGRAM ══════════════════════════════════ */
     .instagram-placeholder {
@@ -1043,17 +937,12 @@
         left: 95px;
       }
 
-      /* 4. mosaic: 50% smaller row height */
-      .media-mosaic {
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 100px;
-      }
-      .media-overlay-content { padding: 24px 16px; }
+      /* 4. media card: stack image above content */
+      .media-card { grid-template-columns: 1fr; }
+      .media-card-image img { min-height: 240px; }
+      .media-card-body { padding: 32px 24px; align-items: center; text-align: center; }
+      .media-card-body .sect-rule { justify-content: center; }
 
-      /* 5. reviews: 20px side margin, 10px bottom */
-      #reviews .inner { padding: 48px 20px 10px; }
-      .reviews-carousel-wrap { margin: 0; }
-      .review-card { padding: 32px 20px 24px; }
 
       /* 6. socials: 2×2 grid, 4px gap */
       .follow-socials {
@@ -1075,7 +964,6 @@
         <li><a href="#music">Music</a></li>
         <li><a href="#shows">Shows</a></li>
         <li><a href="#media">Media</a></li>
-        <li><a href="#reviews">Reviews</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <div class="nav-merch">
@@ -1092,7 +980,6 @@
       <li><a href="#music">Music</a></li>
       <li><a href="#shows">Shows</a></li>
       <li><a href="#media">Media</a></li>
-      <li><a href="#reviews">Reviews</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="mobile-merch">
@@ -1219,74 +1106,24 @@
            href="https://www.bandsintown.com/a/15500141-band-of-eden?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=widget">
         </a>
       </div>
-      <div class="shows-cta">
-        <a href="https://www.bandsintown.com/a/15500141-band-of-eden" target="_blank" rel="noopener noreferrer" class="btn btn-gold">All Shows</a>
-      </div>
       <script src="https://widget.bandsintown.com/main.min.js" charset="utf-8"></script>
     </div>
   </section>
 
   <!-- ═══ MEDIA ════════════════════════════════════════ -->
   <section id="media" aria-labelledby="media-title">
-    <div class="media-mosaic" aria-hidden="true">
-      <div class="mosaic-item"><img src="eden-images/By Aaron Wiganosky.jpg" alt="" /></div>
-      <div class="mosaic-item"><img src="eden-images/dsc00092.jpg" alt="" /></div>
-      <div class="mosaic-item"><img src="eden-images/dsc00113.jpg" alt="" /></div>
-      <div class="mosaic-item"><img src="eden-images/By Aaron Wiganosky(1).jpg" alt="" /></div>
-      <div class="mosaic-item"><img src="eden-images/img_1321.jpg" alt="" /></div>
-      <div class="mosaic-item"><img src="eden-images/dsc00062.JPG" alt="" /></div>
-      <div class="mosaic-item"><img src="eden-images/dsc00208.jpg" alt="" /></div>
-      <div class="mosaic-item"><img src="eden-images/By Aaron Wiganosky(2).jpg" alt="" /></div>
-      <div class="mosaic-item"><img src="eden-images/Angel of the Winds by Limo John Janson.jpg" alt="" /></div>
-      <div class="mosaic-item"><img src="eden-images/dsc00244.jpg" alt="" /></div>
-      <div class="mosaic-item"><img src="eden-images/Copy of img_1319.jpg" alt="" /></div>
-      <div class="mosaic-item"><img src="eden-images/img_1323.jpg" alt="" /></div>
-    </div>
-    <div class="media-overlay-content">
-      <h2 class="sect-title" id="media-title">Media Kit</h2>
-      <div class="sect-rule" aria-hidden="true"></div>
-      <p class="media-caption">Professional photos, bios, and press materials available for download.</p>
-      <a href="https://drive.google.com/drive/folders/1j_kLuoDWUkPwVWY_hUu7pWBuFCNUvNDQ"
-         target="_blank" rel="noopener noreferrer" class="btn btn-gold">Download Press Kit</a>
-    </div>
-  </section>
-
-  <!-- ═══ REVIEWS ══════════════════════════════════════ -->
-  <section id="reviews" aria-labelledby="reviews-title">
     <div class="inner">
-      <h2 class="sect-title" id="reviews-title">What People Are Saying</h2>
-      <div class="sect-rule" aria-hidden="true"></div>
-      <div class="reviews-carousel-wrap" role="region" aria-label="Reviews">
-        <article class="review-card">
-          <div class="review-quote" aria-hidden="true">&ldquo;</div>
-          <p class="review-text">Having produced thousands of concerts, few exceed the entertainment value Eden provides the audience. Each performer is a highly skilled and entertaining artist stretching the boundaries of their craft. Every demographic will enjoy an Eden performance again and again.</p>
-          <p class="review-author">John Rostas &nbsp;&middot;&nbsp; President, Live Nation Entertainment (Retired)</p>
-        </article>
-        <article class="review-card">
-          <div class="review-quote" aria-hidden="true">&ldquo;</div>
-          <p class="review-text">Absolutely love, great energy, and great dancing moving music! Members are SO NICE!!! Love them, 2nd time seeing them and I&#8217;m totally in for seeing them AGAIN.</p>
-          <p class="review-author">D.</p>
-        </article>
-        <article class="review-card">
-          <div class="review-quote" aria-hidden="true">&ldquo;</div>
-          <p class="review-text">Fabulous band with an authentic soul vibe and incredible stage presence.</p>
-          <p class="review-author">S.</p>
-        </article>
-        <article class="review-card">
-          <div class="review-quote" aria-hidden="true">&ldquo;</div>
-          <p class="review-text">Saw these fine folk at Vino Bella in Issaquah on December 3 and was blown away. Instant fan. Can&#8217;t wait for the EP!</p>
-          <p class="review-author">K.</p>
-        </article>
-        <article class="review-card">
-          <div class="review-quote" aria-hidden="true">&ldquo;</div>
-          <p class="review-text">Great Band, love listening to them, love watching them, awesome vibes!!!</p>
-          <p class="review-author">T.</p>
-        </article>
-        <article class="review-card">
-          <div class="review-quote" aria-hidden="true">&ldquo;</div>
-          <p class="review-text">Amazing! Great showmanship and crowd engagement, songs and sounds. Love it.</p>
-          <p class="review-author">W.</p>
-        </article>
+      <div class="media-card">
+        <div class="media-card-image">
+          <img src="eden-images/eden-press-web.jpg" alt="Eden performing live on stage" loading="lazy" />
+        </div>
+        <div class="media-card-body">
+          <h2 class="sect-title" id="media-title">Media Kit</h2>
+          <div class="sect-rule" aria-hidden="true"></div>
+          <p class="media-caption">Professional photos, bios, and press materials available for download.</p>
+          <a href="https://drive.google.com/drive/folders/1j_kLuoDWUkPwVWY_hUu7pWBuFCNUvNDQ"
+             target="_blank" rel="noopener noreferrer" class="btn btn-gold">Download Press Kit</a>
+        </div>
       </div>
     </div>
   </section>
@@ -1394,8 +1231,7 @@
           <li><a href="#music">Music</a></li>
           <li><a href="#shows">Shows</a></li>
           <li><a href="#media">Media</a></li>
-          <li><a href="#reviews">Reviews</a></li>
-          <li><a href="#contact">Contact</a></li>
+            <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
       <div class="footer-socials" aria-label="Social media links">
@@ -1511,60 +1347,6 @@
       soundToggle.setAttribute('aria-pressed', on);
       soundToggle.querySelector('.sound-toggle-label').textContent = on ? 'Mute' : 'Sound';
     });
-
-    // reviews carousel
-    (function () {
-      const wrap  = document.querySelector('.reviews-carousel-wrap');
-      const cards = Array.from(wrap.querySelectorAll('.review-card'));
-      const STAY = 3500, TRANS = 500;
-      let current = 0, timer = null, started = false;
-
-      function sizeWrap() {
-        // clone each card into body at static position to measure natural height
-        let max = 0;
-        const w = wrap.offsetWidth;
-        cards.forEach(c => {
-          const clone = c.cloneNode(true);
-          clone.style.cssText = 'position:fixed;top:-9999px;left:0;width:' + w + 'px;opacity:1;transform:none;pointer-events:auto;';
-          document.body.appendChild(clone);
-          max = Math.max(max, clone.offsetHeight);
-          document.body.removeChild(clone);
-        });
-        wrap.style.height = (max + 2) + 'px';
-      }
-
-      function goTo(idx) {
-        const prev = cards[current];
-        prev.classList.remove('is-active');
-        prev.classList.add('is-exiting');
-        setTimeout(() => prev.classList.remove('is-exiting'), TRANS);
-        cards[idx].classList.add('is-active');
-        current = idx;
-      }
-
-      function start() {
-        if (started) return;
-        started = true;
-        sizeWrap();
-        // first card: suppress the slide, just fade in
-        cards[0].style.transform = 'translateX(0)';
-        cards[0].classList.add('is-active');
-        setTimeout(() => { cards[0].style.transform = ''; }, TRANS);
-        timer = setInterval(() => goTo((current + 1) % cards.length), STAY + TRANS);
-      }
-
-      const cycle = () => goTo((current + 1) % cards.length);
-      wrap.addEventListener('mouseenter',  () => clearInterval(timer));
-      wrap.addEventListener('mouseleave',  () => { timer = setInterval(cycle, STAY + TRANS); });
-      wrap.addEventListener('touchstart',  () => clearInterval(timer), { passive: true });
-      wrap.addEventListener('touchend',    () => { timer = setInterval(cycle, STAY + TRANS); }, { passive: true });
-
-      const obs = new IntersectionObserver(e => {
-        if (e[0].isIntersecting) { start(); obs.disconnect(); }
-      }, { threshold: 0.2 });
-      obs.observe(document.getElementById('reviews'));
-      window.addEventListener('resize', sizeWrap);
-    })();
 
     // contact form
     document.getElementById('booking-form').addEventListener('submit', function(e) {
