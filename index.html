@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="eden-images/eden-brodienation-26-rmv.jpg" fetchpriority="high" />
   <style>
     /* ═══ TOKENS ══════════════════════════════════════ */
     :root {
@@ -23,7 +24,7 @@
       --nav-h:   72px;
       --max:     1100px;
       --hero-logo-w-rest:    344px;
-      --hero-logo-w-landing: 50vw;
+      --hero-logo-w-landing: 92vw;
       --hero-logo-w-huge:    140vw;
     }
 
@@ -272,6 +273,8 @@
       text-align: center;
       padding: calc(var(--nav-h) + 60px) 24px 80px;
       overflow: hidden;
+      background-color: var(--bg);
+      background-image: none;
     }
     @keyframes kenburns {
       0%   { transform: scale(1)    translate(0%, 0%); }
@@ -912,7 +915,7 @@
 
   <!-- ═══ HERO ════════════════════════════════════════ -->
   <section id="hero" aria-label="Hero">
-    <img src="eden-images/eden-brodienation-26-rmv.jpg" alt="" class="hero-img" aria-hidden="true" />
+    <img src="eden-images/eden-brodienation-26-rmv.jpg" alt="" class="hero-img" aria-hidden="true" fetchpriority="high" />
     <div class="hero-content">
       <a href="#shows" class="btn btn-gold hero-cta">SHOWS</a>
     </div>
