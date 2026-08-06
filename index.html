@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Band of Eden</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="eden-images/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="eden-images/favicon-180.png" />
   <meta name="description" content="Band of Eden is a rock, blues, and pop band from the Pacific Northwest." />
   <meta property="og:title" content="Band of Eden" />
   <meta property="og:description" content="Band of Eden is a rock, blues, and pop band from the Pacific Northwest." />
@@ -31,7 +33,7 @@
       --glow-lg: 0 0 40px rgba(192,192,192,0.4);
       --nav-h:   72px;
       --max:     1100px;
-      --hero-logo-w-rest:    344px;
+      --hero-logo-w-rest:    516px;
       --hero-logo-w-landing: 92vw;
       --hero-logo-w-huge:    140vw;
     }
@@ -312,6 +314,7 @@
       top: 40%;
       left: 50%;
       width: var(--hero-logo-w-rest);
+      max-width: none;
       height: auto;
       transform: translate(-50%, -50%);
       filter: drop-shadow(0 0 18px rgba(192,192,192,0.2));
@@ -882,7 +885,7 @@
     /* hamburger hidden on desktop — shown by default everywhere else */
     @media (min-width: 801px) {
       .nav-hamburger { display: none; }
-      :root { --hero-logo-w-landing: 184vw; }
+      :root { --hero-logo-w-landing: 500vw; }
     }
 
     /* ═══ RESPONSIVE ══════════════════════════════════ */
@@ -926,9 +929,9 @@
       .form-group.full { grid-column: auto; }
 
       :root {
-        --hero-logo-w-rest: 214px;
+        --hero-logo-w-rest: 321px;
       }
-      .hero-logo { top: 30%; }
+      .hero-logo { top: 10%; }
       .hero-content { margin-top: calc(60vh - 104px + 200px); }
       .hero-logo.docked {
         left: 95px;
@@ -1007,7 +1010,7 @@
     </ul>
   </div>
 
-  <img src="images/eden-logo.png" alt="Eden" class="hero-logo" id="hero-logo" />
+  <img src="eden-images/eden-logo-hero.png" alt="Eden" class="hero-logo" id="hero-logo" />
 
   <!-- ═══ HERO ════════════════════════════════════════ -->
   <section id="hero" aria-label="Hero">
