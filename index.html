@@ -809,6 +809,7 @@
 
     /* ═══ CONTACT ════════════════════════════════════ */
     .contact-wrap { max-width: 680px; }
+    .contact-buttons { display: flex; gap: 20px; flex-wrap: wrap; }
     .contact-desc {
       font-size: 18px;
       line-height: 1.85;
@@ -1468,9 +1469,10 @@
     <div class="inner">
       <h2 class="sect-title" id="contact-title">Get in Touch</h2>
       <div class="sect-rule" aria-hidden="true"></div>
-      <p class="contact-desc">For bookings, press inquiries, or fan messages, reach out below and we will get back to you shortly.</p>
-      <div class="contact-wrap">
+      <p class="contact-desc">Looking to book Eden for an event, or just want to say hello? Pick whichever fits below.</p>
+      <div class="contact-wrap contact-buttons">
         <button type="button" class="btn btn-gold" id="openBookingModal">Book Now</button>
+        <button type="button" class="btn btn-outline" id="openContactModal">General Inquiry</button>
       </div>
     </div>
   </section>
@@ -1559,6 +1561,41 @@
           <div class="form-submit full">
             <button type="submit" class="btn btn-gold">Send Inquiry</button>
             <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══ GENERAL CONTACT MODAL ════════════════════════════ -->
+  <div class="booking-modal" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle" aria-hidden="true">
+    <div class="booking-modal-backdrop" data-contact-close></div>
+    <div class="booking-modal-card">
+      <button type="button" class="booking-modal-close" aria-label="Close" data-contact-close>&times;</button>
+      <h3 class="booking-modal-title" id="contactModalTitle">General Inquiry</h3>
+      <p class="booking-modal-desc">Press, fan messages, or anything else — we’d love to hear from you.</p>
+      <form id="contact-form" action="https://formspree.io/f/mgawynjo" method="POST" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="c-name">Name <span aria-hidden="true">*</span></label>
+            <input type="text" id="c-name" name="name" placeholder="Your name" required autocomplete="name" />
+          </div>
+          <div class="form-group">
+            <label for="c-email">Email <span aria-hidden="true">*</span></label>
+            <input type="email" id="c-email" name="email" placeholder="your@email.com" required autocomplete="email" />
+          </div>
+          <div class="form-group full">
+            <label for="c-message">Message <span aria-hidden="true">*</span></label>
+            <textarea id="c-message" name="message" placeholder="What's on your mind?" required></textarea>
+          </div>
+          <input type="hidden" name="_subject" value="New Message — Eden Website" />
+          <div class="form-hidden-field" aria-hidden="true">
+            <label for="c-gotcha">Leave this field empty</label>
+            <input type="text" id="c-gotcha" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+          <div class="form-submit full">
+            <button type="submit" class="btn btn-gold">Send Message</button>
+            <p class="form-status" id="contact-form-status" role="status" aria-live="polite"></p>
           </div>
         </div>
       </form>
@@ -1726,6 +1763,32 @@
       el.addEventListener('click', closeBookingModal);
     });
 
+    // general contact modal
+    const contactModal = document.getElementById('contactModal');
+    const openContactBtn = document.getElementById('openContactModal');
+    let lastContactTrigger = null;
+    let contactModalOpenedAt = 0;
+
+    function openContactModal() {
+      contactModal.classList.add('is-open');
+      contactModal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+      lastContactTrigger = openContactBtn;
+      contactModalOpenedAt = Date.now();
+      const firstField = document.getElementById('c-name');
+      if (firstField) firstField.focus();
+    }
+    function closeContactModal() {
+      contactModal.classList.remove('is-open');
+      contactModal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+      if (lastContactTrigger) lastContactTrigger.focus();
+    }
+    openContactBtn.addEventListener('click', openContactModal);
+    contactModal.querySelectorAll('[data-contact-close]').forEach(el => {
+      el.addEventListener('click', closeContactModal);
+    });
+
     // thank you overlay + confetti
     const thankyouOverlay = document.getElementById('thankyouOverlay');
     const closeThankyouBtn = document.getElementById('closeThankyou');
@@ -1804,9 +1867,10 @@
       if (e.key !== 'Escape') return;
       if (thankyouOverlay.classList.contains('is-open')) closeThankyou();
       else if (bookingModal.classList.contains('is-open')) closeBookingModal();
+      else if (contactModal.classList.contains('is-open')) closeContactModal();
     });
 
-    // contact form
+    // booking form
     const bookingForm = document.getElementById('booking-form');
     const formStatus = document.getElementById('form-status');
     const formSubmitBtn = bookingForm.querySelector('button[type="submit"]');
@@ -1860,6 +1924,63 @@
       } finally {
         formSubmitBtn.disabled = false;
         formSubmitBtn.textContent = 'Send Inquiry';
+      }
+    });
+
+    // general contact form
+    const contactForm = document.getElementById('contact-form');
+    const contactFormStatus = document.getElementById('contact-form-status');
+    const contactSubmitBtn = contactForm.querySelector('button[type="submit"]');
+
+    contactForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const v = n => this.elements[n].value.trim();
+
+      contactFormStatus.textContent = '';
+      contactFormStatus.className = 'form-status';
+
+      if (!v('name') || !v('email') || !v('message')) {
+        contactFormStatus.textContent = 'Please fill in all required fields.';
+        contactFormStatus.classList.add('error');
+        return;
+      }
+
+      // no real visitor fills and submits this fast — quietly drop likely bots
+      if (Date.now() - contactModalOpenedAt < 1500) {
+        this.reset();
+        closeContactModal();
+        openThankyou();
+        return;
+      }
+
+      contactSubmitBtn.disabled = true;
+      contactSubmitBtn.textContent = 'Sending…';
+
+      try {
+        const response = await fetch(this.action, {
+          method: 'POST',
+          body: new FormData(this),
+          headers: { 'Accept': 'application/json' },
+        });
+
+        if (response.ok) {
+          this.reset();
+          closeContactModal();
+          openThankyou();
+        } else {
+          const data = await response.json().catch(() => null);
+          const message = data && data.errors
+            ? data.errors.map(err => err.message).join(', ')
+            : 'Something went wrong. Please try again or email us directly.';
+          contactFormStatus.textContent = message;
+          contactFormStatus.classList.add('error');
+        }
+      } catch (err) {
+        contactFormStatus.textContent = 'Network error — please check your connection and try again.';
+        contactFormStatus.classList.add('error');
+      } finally {
+        contactSubmitBtn.disabled = false;
+        contactSubmitBtn.textContent = 'Send Message';
       }
     });
 
