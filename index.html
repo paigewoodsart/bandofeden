@@ -1511,6 +1511,10 @@
             <input type="time" id="f-time" name="start_time" />
           </div>
           <div class="form-group">
+            <label for="f-end-time">End Time <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></label>
+            <input type="time" id="f-end-time" name="end_time" />
+          </div>
+          <div class="form-group">
             <label for="f-event-type">Event Type <span aria-hidden="true">*</span></label>
             <select id="f-event-type" name="event_type" required>
               <option value="" disabled selected>Select event type</option>
@@ -1536,7 +1540,7 @@
           </div>
           <div class="form-group full">
             <fieldset class="form-radio-fieldset">
-              <legend>Sound System Provided <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></legend>
+              <legend>Sound System Provided By Venue <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></legend>
               <div class="form-radio-group">
                 <div class="form-radio-option">
                   <input type="radio" id="f-sound-yes" name="sound_system" value="Yes" />
