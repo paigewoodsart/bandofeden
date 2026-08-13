@@ -1540,14 +1540,14 @@
           </div>
           <div class="form-group full">
             <fieldset class="form-radio-fieldset">
-              <legend>Sound System Provided By Venue <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></legend>
+              <legend>Sound System Provided By Venue <span aria-hidden="true">*</span></legend>
               <div class="form-radio-group">
                 <div class="form-radio-option">
-                  <input type="radio" id="f-sound-yes" name="sound_system" value="Yes" />
+                  <input type="radio" id="f-sound-yes" name="sound_system" value="Yes" required />
                   <label for="f-sound-yes">Yes</label>
                 </div>
                 <div class="form-radio-option">
-                  <input type="radio" id="f-sound-no" name="sound_system" value="No" />
+                  <input type="radio" id="f-sound-no" name="sound_system" value="No" required />
                   <label for="f-sound-no">No</label>
                 </div>
               </div>
@@ -1886,7 +1886,7 @@
       formStatus.textContent = '';
       formStatus.className = 'form-status';
 
-      if (!v('name') || !v('email') || !v('venue') || !v('date') || !v('event_type') || !v('budget')) {
+      if (!v('name') || !v('email') || !v('venue') || !v('date') || !v('event_type') || !v('budget') || !v('sound_system')) {
         formStatus.textContent = 'Please fill in all required fields.';
         formStatus.classList.add('error');
         return;
