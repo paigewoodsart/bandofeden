@@ -866,6 +866,56 @@
     }
     .form-group select option { background: var(--bg); color: var(--cream); }
     .form-group select:invalid { color: rgba(242,240,228,0.45); }
+    .form-radio-fieldset { border: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+    .form-radio-fieldset legend {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 0;
+      margin: 0 0 30px 0;
+    }
+    .form-radio-group { display: flex; gap: 32px; }
+    .form-radio-option { display: flex; align-items: center; gap: 10px; }
+    .form-radio-option input[type="radio"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      margin: 0;
+      border: 2px solid rgba(192,192,192,0.5);
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.3s;
+    }
+    .form-radio-option input[type="radio"]:hover { border-color: var(--gold); }
+    .form-radio-option input[type="radio"]:checked { border-color: var(--gold); }
+    .form-radio-option input[type="radio"]:checked::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: var(--glow);
+      transform: translate(-50%, -50%);
+    }
+    .form-radio-option input[type="radio"]:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+    .form-radio-option label {
+      color: var(--cream);
+      font-family: 'Barlow', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 300;
+      cursor: pointer;
+    }
     .form-hidden-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
     .form-submit { margin-top: 8px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
     .btn-gold:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
@@ -876,6 +926,122 @@
     }
     .form-status.success { color: var(--gold); }
     .form-status.error   { color: #E8837A; }
+
+    /* ═══ BOOKING MODAL ═══════════════════════════════ */
+    body.modal-open { overflow: hidden; }
+    .booking-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 310;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .booking-modal.is-open { display: flex; }
+    .booking-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .booking-modal-card {
+      position: relative;
+      z-index: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      max-width: 780px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 48px 44px;
+      opacity: 0;
+      transform: scale(0.94) translateY(12px);
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .booking-modal.is-open .booking-modal-card {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    .booking-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      width: 36px;
+      height: 36px;
+      background: rgba(10,10,10,0.6);
+      border: 1px solid var(--border);
+      color: #fff;
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .booking-modal-close:hover { color: var(--gold); border-color: var(--gold); }
+    .booking-modal-title {
+      font-family: 'Marcellus', serif;
+      font-size: 1.9rem;
+      color: var(--cream);
+      margin-bottom: 8px;
+    }
+    .booking-modal-desc {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 36px;
+      max-width: 520px;
+    }
+
+    /* ═══ THANK YOU OVERLAY ═══════════════════════════ */
+    .thankyou-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 320;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(10,10,10,0.94);
+      cursor: pointer;
+    }
+    .thankyou-overlay.is-open { display: flex; }
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .thankyou-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      cursor: default;
+      opacity: 0;
+      transform: scale(0.9) translateY(10px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .thankyou-overlay.is-open .thankyou-content {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    .thankyou-title {
+      font-family: 'Marcellus', serif;
+      font-size: 2.6rem;
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+    .thankyou-text {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 420px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
 
     /* ═══ FOOTER ═════════════════════════════════════ */
     footer {
@@ -991,6 +1157,8 @@
       .member-modal-body { padding: 28px 24px; }
       .form-grid { grid-template-columns: 1fr; }
       .form-group.full { grid-column: auto; }
+      .booking-modal-card { padding: 64px 24px 32px; max-height: 92vh; }
+      .thankyou-title { font-size: 2rem; }
 
       :root {
         --hero-logo-w-rest: 160px;
@@ -1302,74 +1470,110 @@
       <div class="sect-rule" aria-hidden="true"></div>
       <p class="contact-desc">For bookings, press inquiries, or fan messages, reach out below and we will get back to you shortly.</p>
       <div class="contact-wrap">
-        <form id="booking-form" action="https://formspree.io/f/mrpzkywa" method="POST" novalidate>
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="f-name">Name <span aria-hidden="true">*</span></label>
-              <input type="text" id="f-name" name="name" placeholder="Your name" required autocomplete="name" />
-            </div>
-            <div class="form-group">
-              <label for="f-email">Email <span aria-hidden="true">*</span></label>
-              <input type="email" id="f-email" name="email" placeholder="your@email.com" required autocomplete="email" />
-            </div>
-            <div class="form-group">
-              <label for="f-phone">Phone <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></label>
-              <input type="tel" id="f-phone" name="phone" placeholder="+1 (555) 000-0000" autocomplete="tel" />
-            </div>
-            <div class="form-group">
-              <label for="f-venue">Venue <span aria-hidden="true">*</span></label>
-              <input type="text" id="f-venue" name="venue" placeholder="Venue name and location" required />
-            </div>
-            <div class="form-group">
-              <label for="f-date">Event Date <span aria-hidden="true">*</span></label>
-              <input type="date" id="f-date" name="date" required />
-            </div>
-            <div class="form-group">
-              <label for="f-time">Start Time <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></label>
-              <input type="time" id="f-time" name="start_time" />
-            </div>
-            <div class="form-group">
-              <label for="f-event-type">Event Type <span aria-hidden="true">*</span></label>
-              <select id="f-event-type" name="event_type" required>
-                <option value="" disabled selected>Select event type</option>
-                <option value="Wedding">Wedding</option>
-                <option value="Private Party">Private Party</option>
-                <option value="Corporate Event">Corporate Event</option>
-                <option value="Bar / Club">Bar / Club</option>
-                <option value="Festival">Festival</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="f-attendance">Expected Attendance <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></label>
-              <input type="text" id="f-attendance" name="attendance" placeholder="e.g. 150 guests" />
-            </div>
-            <div class="form-group">
-              <label for="f-budget">Budget <span aria-hidden="true">*</span></label>
-              <input type="text" id="f-budget" name="budget" placeholder="e.g. $2,000 – $5,000" required />
-            </div>
-            <div class="form-group">
-              <label for="f-referral">How Did You Hear About Us? <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></label>
-              <input type="text" id="f-referral" name="referral" placeholder="e.g. Instagram, a friend, a past show" />
-            </div>
-            <div class="form-group full">
-              <label for="f-message">Additional Details</label>
-              <textarea id="f-message" name="message" placeholder="Anything else we should know..."></textarea>
-            </div>
-            <input type="hidden" name="_subject" value="New Booking Inquiry — Eden" />
-            <div class="form-hidden-field" aria-hidden="true">
-              <label for="f-gotcha">Leave this field empty</label>
-              <input type="text" id="f-gotcha" name="_gotcha" tabindex="-1" autocomplete="off" />
-            </div>
-            <div class="form-submit full">
-              <button type="submit" class="btn btn-gold">Send Inquiry</button>
-              <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-            </div>
-          </div>
-        </form>
+        <button type="button" class="btn btn-gold" id="openBookingModal">Book Now</button>
       </div>
     </div>
   </section>
+
+  <!-- ═══ BOOKING MODAL ═══════════════════════════════════ -->
+  <div class="booking-modal" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle" aria-hidden="true">
+    <div class="booking-modal-backdrop" data-booking-close></div>
+    <div class="booking-modal-card">
+      <button type="button" class="booking-modal-close" aria-label="Close" data-booking-close>&times;</button>
+      <h3 class="booking-modal-title" id="bookingModalTitle">Booking Inquiry</h3>
+      <p class="booking-modal-desc">Tell us about your event and we’ll get back to you shortly.</p>
+      <form id="booking-form" action="https://formspree.io/f/mrpzkywa" method="POST" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="f-name">Name <span aria-hidden="true">*</span></label>
+            <input type="text" id="f-name" name="name" placeholder="Your name" required autocomplete="name" />
+          </div>
+          <div class="form-group">
+            <label for="f-email">Email <span aria-hidden="true">*</span></label>
+            <input type="email" id="f-email" name="email" placeholder="your@email.com" required autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <label for="f-phone">Phone <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></label>
+            <input type="tel" id="f-phone" name="phone" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+          </div>
+          <div class="form-group">
+            <label for="f-venue">Venue <span aria-hidden="true">*</span></label>
+            <input type="text" id="f-venue" name="venue" placeholder="Venue name and location" required />
+          </div>
+          <div class="form-group">
+            <label for="f-date">Event Date <span aria-hidden="true">*</span></label>
+            <input type="date" id="f-date" name="date" required />
+          </div>
+          <div class="form-group">
+            <label for="f-time">Start Time <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></label>
+            <input type="time" id="f-time" name="start_time" />
+          </div>
+          <div class="form-group">
+            <label for="f-event-type">Event Type <span aria-hidden="true">*</span></label>
+            <select id="f-event-type" name="event_type" required>
+              <option value="" disabled selected>Select event type</option>
+              <option value="Wedding">Wedding</option>
+              <option value="Private Party">Private Party</option>
+              <option value="Corporate Event">Corporate Event</option>
+              <option value="Bar / Club">Bar / Club</option>
+              <option value="Festival">Festival</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="f-attendance">Expected Attendance <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></label>
+            <input type="text" id="f-attendance" name="attendance" placeholder="e.g. 150 guests" />
+          </div>
+          <div class="form-group">
+            <label for="f-budget">Budget <span aria-hidden="true">*</span></label>
+            <input type="text" id="f-budget" name="budget" placeholder="e.g. $2,000 – $5,000" required />
+          </div>
+          <div class="form-group">
+            <label for="f-referral">How Did You Hear About Us? <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></label>
+            <input type="text" id="f-referral" name="referral" placeholder="e.g. Instagram, a friend, a past show" />
+          </div>
+          <div class="form-group full">
+            <fieldset class="form-radio-fieldset">
+              <legend>Sound System Provided <span style="font-weight:300;opacity:.6;letter-spacing:0;">(optional)</span></legend>
+              <div class="form-radio-group">
+                <div class="form-radio-option">
+                  <input type="radio" id="f-sound-yes" name="sound_system" value="Yes" />
+                  <label for="f-sound-yes">Yes</label>
+                </div>
+                <div class="form-radio-option">
+                  <input type="radio" id="f-sound-no" name="sound_system" value="No" />
+                  <label for="f-sound-no">No</label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div class="form-group full">
+            <label for="f-message">Additional Details</label>
+            <textarea id="f-message" name="message" placeholder="Anything else we should know..."></textarea>
+          </div>
+          <input type="hidden" name="_subject" value="New Booking Inquiry — Eden" />
+          <div class="form-hidden-field" aria-hidden="true">
+            <label for="f-gotcha">Leave this field empty</label>
+            <input type="text" id="f-gotcha" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+          <div class="form-submit full">
+            <button type="submit" class="btn btn-gold">Send Inquiry</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══ THANK YOU OVERLAY ═══════════════════════════════ -->
+  <div class="thankyou-overlay" id="thankyouOverlay" aria-hidden="true">
+    <canvas id="confetti-canvas"></canvas>
+    <div class="thankyou-content">
+      <h3 class="thankyou-title">Thank You!</h3>
+      <p class="thankyou-text">Your inquiry has been sent — we’ll be in touch soon.</p>
+      <button type="button" class="btn btn-outline" id="closeThankyou">Close</button>
+    </div>
+  </div>
 
   <!-- ═══ FOOTER ════════════════════════════════════════ -->
   <footer>
@@ -1496,6 +1700,110 @@
       soundToggle.querySelector('.sound-toggle-label').textContent = on ? 'Mute' : 'Sound';
     });
 
+    // booking modal
+    const bookingModal = document.getElementById('bookingModal');
+    const openBookingBtn = document.getElementById('openBookingModal');
+    let lastBookingTrigger = null;
+
+    function openBookingModal() {
+      bookingModal.classList.add('is-open');
+      bookingModal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+      lastBookingTrigger = openBookingBtn;
+      const firstField = document.getElementById('f-name');
+      if (firstField) firstField.focus();
+    }
+    function closeBookingModal() {
+      bookingModal.classList.remove('is-open');
+      bookingModal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+      if (lastBookingTrigger) lastBookingTrigger.focus();
+    }
+    openBookingBtn.addEventListener('click', openBookingModal);
+    bookingModal.querySelectorAll('[data-booking-close]').forEach(el => {
+      el.addEventListener('click', closeBookingModal);
+    });
+
+    // thank you overlay + confetti
+    const thankyouOverlay = document.getElementById('thankyouOverlay');
+    const closeThankyouBtn = document.getElementById('closeThankyou');
+    const confettiCanvas = document.getElementById('confetti-canvas');
+    const confettiCtx = confettiCanvas.getContext('2d');
+    const confettiColors = ['#C0C0C0', '#E8E8E8', '#F2F0E4', '#888888'];
+    let confettiAnimId = null;
+    let thankyouTimeout = null;
+
+    function launchConfetti() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+      const particles = Array.from({ length: 140 }, () => ({
+        x: Math.random() * confettiCanvas.width,
+        y: -20 - Math.random() * confettiCanvas.height * 0.5,
+        size: 6 + Math.random() * 6,
+        color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+        speedY: 2 + Math.random() * 3,
+        speedX: (Math.random() - 0.5) * 2,
+        rotation: Math.random() * 360,
+        rotationSpeed: (Math.random() - 0.5) * 10,
+        shape: Math.random() > 0.5 ? 'rect' : 'circle',
+      }));
+      const startTime = performance.now();
+      cancelAnimationFrame(confettiAnimId);
+      function frame(now) {
+        confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        particles.forEach(p => {
+          p.y += p.speedY;
+          p.x += p.speedX;
+          p.rotation += p.rotationSpeed;
+          confettiCtx.save();
+          confettiCtx.translate(p.x, p.y);
+          confettiCtx.rotate((p.rotation * Math.PI) / 180);
+          confettiCtx.fillStyle = p.color;
+          if (p.shape === 'rect') {
+            confettiCtx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+          } else {
+            confettiCtx.beginPath();
+            confettiCtx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+            confettiCtx.fill();
+          }
+          confettiCtx.restore();
+        });
+        if (now - startTime < 4000) {
+          confettiAnimId = requestAnimationFrame(frame);
+        } else {
+          confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        }
+      }
+      confettiAnimId = requestAnimationFrame(frame);
+    }
+
+    function openThankyou() {
+      thankyouOverlay.classList.add('is-open');
+      thankyouOverlay.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+      launchConfetti();
+      clearTimeout(thankyouTimeout);
+      thankyouTimeout = setTimeout(closeThankyou, 6000);
+    }
+    function closeThankyou() {
+      thankyouOverlay.classList.remove('is-open');
+      thankyouOverlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+      clearTimeout(thankyouTimeout);
+      cancelAnimationFrame(confettiAnimId);
+      confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    }
+    closeThankyouBtn.addEventListener('click', closeThankyou);
+    thankyouOverlay.addEventListener('click', e => {
+      if (e.target === thankyouOverlay) closeThankyou();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      if (thankyouOverlay.classList.contains('is-open')) closeThankyou();
+      else if (bookingModal.classList.contains('is-open')) closeBookingModal();
+    });
+
     // contact form
     const bookingForm = document.getElementById('booking-form');
     const formStatus = document.getElementById('form-status');
@@ -1525,9 +1833,9 @@
         });
 
         if (response.ok) {
-          formStatus.textContent = 'Thanks — your inquiry has been sent. We’ll be in touch soon.';
-          formStatus.classList.add('success');
           this.reset();
+          closeBookingModal();
+          openThankyou();
         } else {
           const data = await response.json().catch(() => null);
           const message = data && data.errors
