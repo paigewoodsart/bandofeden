@@ -1841,6 +1841,14 @@
       window.history.replaceState(null, '', cleanUrl);
     }
 
+    // if the visitor hits Back from Formspree instead of completing it, the
+    // browser can restore this page from bfcache with the button still stuck
+    // on "Sending…" — reset it whenever the page becomes visible again
+    window.addEventListener('pageshow', () => {
+      formSubmitBtn.disabled = false;
+      formSubmitBtn.textContent = 'Send Inquiry';
+    });
+
     document.getElementById('footer-year').textContent = new Date().getFullYear();
   </script>
 
