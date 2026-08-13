@@ -1704,12 +1704,14 @@
     const bookingModal = document.getElementById('bookingModal');
     const openBookingBtn = document.getElementById('openBookingModal');
     let lastBookingTrigger = null;
+    let bookingModalOpenedAt = 0;
 
     function openBookingModal() {
       bookingModal.classList.add('is-open');
       bookingModal.setAttribute('aria-hidden', 'false');
       document.body.classList.add('modal-open');
       lastBookingTrigger = openBookingBtn;
+      bookingModalOpenedAt = Date.now();
       const firstField = document.getElementById('f-name');
       if (firstField) firstField.focus();
     }
@@ -1819,6 +1821,14 @@
       if (!v('name') || !v('email') || !v('venue') || !v('date') || !v('event_type') || !v('budget')) {
         formStatus.textContent = 'Please fill in all required fields.';
         formStatus.classList.add('error');
+        return;
+      }
+
+      // no real visitor fills an 11-field form this fast — quietly drop likely bots
+      if (Date.now() - bookingModalOpenedAt < 1500) {
+        this.reset();
+        closeBookingModal();
+        openThankyou();
         return;
       }
 
