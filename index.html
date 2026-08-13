@@ -956,6 +956,8 @@
       width: 100%;
       max-height: 88vh;
       overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
       padding: 48px 44px;
       opacity: 0;
       transform: scale(0.94) translateY(12px);
@@ -1738,6 +1740,32 @@
       soundToggle.querySelector('.sound-toggle-label').textContent = on ? 'Mute' : 'Sound';
     });
 
+    // body scroll lock — `overflow: hidden` alone doesn't stop touch-drag
+    // scrolling the page behind a modal on mobile Safari, so pin the body
+    // in place instead and restore the exact scroll position on unlock
+    let scrollLockY = 0;
+    let scrollLockCount = 0;
+    function lockBodyScroll() {
+      if (scrollLockCount === 0) {
+        scrollLockY = window.scrollY;
+        document.body.classList.add('modal-open');
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollLockY}px`;
+        document.body.style.width = '100%';
+      }
+      scrollLockCount++;
+    }
+    function unlockBodyScroll() {
+      scrollLockCount = Math.max(0, scrollLockCount - 1);
+      if (scrollLockCount === 0) {
+        document.body.classList.remove('modal-open');
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, scrollLockY);
+      }
+    }
+
     // booking modal
     const bookingModal = document.getElementById('bookingModal');
     const openBookingBtn = document.getElementById('openBookingModal');
@@ -1747,7 +1775,7 @@
     function openBookingModal() {
       bookingModal.classList.add('is-open');
       bookingModal.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('modal-open');
+      lockBodyScroll();
       lastBookingTrigger = openBookingBtn;
       bookingModalOpenedAt = Date.now();
       const firstField = document.getElementById('f-name');
@@ -1756,7 +1784,7 @@
     function closeBookingModal() {
       bookingModal.classList.remove('is-open');
       bookingModal.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('modal-open');
+      unlockBodyScroll();
       if (lastBookingTrigger) lastBookingTrigger.focus();
     }
     openBookingBtn.addEventListener('click', openBookingModal);
@@ -1773,7 +1801,7 @@
     function openContactModal() {
       contactModal.classList.add('is-open');
       contactModal.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('modal-open');
+      lockBodyScroll();
       lastContactTrigger = openContactBtn;
       contactModalOpenedAt = Date.now();
       const firstField = document.getElementById('c-name');
@@ -1782,7 +1810,7 @@
     function closeContactModal() {
       contactModal.classList.remove('is-open');
       contactModal.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('modal-open');
+      unlockBodyScroll();
       if (lastContactTrigger) lastContactTrigger.focus();
     }
     openContactBtn.addEventListener('click', openContactModal);
@@ -1846,7 +1874,7 @@
     function openThankyou() {
       thankyouOverlay.classList.add('is-open');
       thankyouOverlay.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('modal-open');
+      lockBodyScroll();
       launchConfetti();
       clearTimeout(thankyouTimeout);
       thankyouTimeout = setTimeout(closeThankyou, 6000);
@@ -1854,7 +1882,7 @@
     function closeThankyou() {
       thankyouOverlay.classList.remove('is-open');
       thankyouOverlay.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('modal-open');
+      unlockBodyScroll();
       clearTimeout(thankyouTimeout);
       cancelAnimationFrame(confettiAnimId);
       confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
