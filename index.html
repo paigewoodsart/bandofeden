@@ -1842,11 +1842,18 @@
     }
 
     // if the visitor hits Back from Formspree instead of completing it, the
-    // browser can restore this page from bfcache with the button still stuck
-    // on "Sending…" — reset it whenever the page becomes visible again
-    window.addEventListener('pageshow', () => {
+    // browser can restore this page with the button still stuck on
+    // "Sending…" (a real submit navigates away immediately, so there's no
+    // legitimate case where this page is visible/interactive mid-send) —
+    // reset it on every signal a browser might use to show this page again
+    function resetSubmitButton() {
       formSubmitBtn.disabled = false;
       formSubmitBtn.textContent = 'Send Inquiry';
+    }
+    window.addEventListener('pageshow', resetSubmitButton);
+    window.addEventListener('focus', resetSubmitButton);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') resetSubmitButton();
     });
 
     document.getElementById('footer-year').textContent = new Date().getFullYear();
