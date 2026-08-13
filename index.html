@@ -1839,6 +1839,12 @@
       openThankyou();
       const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
       window.history.replaceState(null, '', cleanUrl);
+    } else if (/(^|\.)formspree\.io$/.test(new URL(document.referrer || 'https://x.invalid').hostname)) {
+      // came back from Formspree without finishing the reCAPTCHA check —
+      // nothing was actually sent, so say so instead of staying silent
+      openBookingModal();
+      formStatus.textContent = 'Your inquiry wasn’t sent — please check the verification box on the next screen before it can go through.';
+      formStatus.classList.add('error');
     }
 
     // if the visitor hits Back from Formspree instead of completing it, the
