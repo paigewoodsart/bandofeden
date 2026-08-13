@@ -1552,7 +1552,6 @@
             <textarea id="f-message" name="message" placeholder="Anything else we should know..."></textarea>
           </div>
           <input type="hidden" name="_subject" value="New Booking Inquiry — Eden" />
-          <input type="hidden" name="_next" id="f-next" value="" />
           <div class="form-hidden-field" aria-hidden="true">
             <label for="f-gotcha">Leave this field empty</label>
             <input type="text" id="f-gotcha" name="_gotcha" tabindex="-1" autocomplete="off" />
@@ -1809,21 +1808,15 @@
     const bookingForm = document.getElementById('booking-form');
     const formStatus = document.getElementById('form-status');
     const formSubmitBtn = bookingForm.querySelector('button[type="submit"]');
-    const formNextField = document.getElementById('f-next');
 
-    // Formspree's reCAPTCHA challenge only supports real form-POST navigations,
-    // not fetch()/AJAX — so this submits natively and Formspree redirects back
-    // here (via _next) after the visitor clears the challenge.
-    formNextField.value = window.location.origin + window.location.pathname + '?booked=1';
-
-    bookingForm.addEventListener('submit', function(e) {
+    bookingForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
       const v = n => this.elements[n].value.trim();
 
       formStatus.textContent = '';
       formStatus.className = 'form-status';
 
       if (!v('name') || !v('email') || !v('venue') || !v('date') || !v('event_type') || !v('budget')) {
-        e.preventDefault();
         formStatus.textContent = 'Please fill in all required fields.';
         formStatus.classList.add('error');
         return;
@@ -1831,35 +1824,33 @@
 
       formSubmitBtn.disabled = true;
       formSubmitBtn.textContent = 'Sending…';
-      // no e.preventDefault() here — let the browser submit to Formspree directly
-    });
 
-    // returning from Formspree's reCAPTCHA redirect
-    if (new URLSearchParams(window.location.search).get('booked') === '1') {
-      openThankyou();
-      const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
-      window.history.replaceState(null, '', cleanUrl);
-    } else if (/(^|\.)formspree\.io$/.test(new URL(document.referrer || 'https://x.invalid').hostname)) {
-      // came back from Formspree without finishing the reCAPTCHA check —
-      // nothing was actually sent, so say so instead of staying silent
-      openBookingModal();
-      formStatus.textContent = 'Your inquiry wasn’t sent — please check the verification box on the next screen before it can go through.';
-      formStatus.classList.add('error');
-    }
+      try {
+        const response = await fetch(this.action, {
+          method: 'POST',
+          body: new FormData(this),
+          headers: { 'Accept': 'application/json' },
+        });
 
-    // if the visitor hits Back from Formspree instead of completing it, the
-    // browser can restore this page with the button still stuck on
-    // "Sending…" (a real submit navigates away immediately, so there's no
-    // legitimate case where this page is visible/interactive mid-send) —
-    // reset it on every signal a browser might use to show this page again
-    function resetSubmitButton() {
-      formSubmitBtn.disabled = false;
-      formSubmitBtn.textContent = 'Send Inquiry';
-    }
-    window.addEventListener('pageshow', resetSubmitButton);
-    window.addEventListener('focus', resetSubmitButton);
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') resetSubmitButton();
+        if (response.ok) {
+          this.reset();
+          closeBookingModal();
+          openThankyou();
+        } else {
+          const data = await response.json().catch(() => null);
+          const message = data && data.errors
+            ? data.errors.map(err => err.message).join(', ')
+            : 'Something went wrong. Please try again or email us directly.';
+          formStatus.textContent = message;
+          formStatus.classList.add('error');
+        }
+      } catch (err) {
+        formStatus.textContent = 'Network error — please check your connection and try again.';
+        formStatus.classList.add('error');
+      } finally {
+        formSubmitBtn.disabled = false;
+        formSubmitBtn.textContent = 'Send Inquiry';
+      }
     });
 
     document.getElementById('footer-year').textContent = new Date().getFullYear();
