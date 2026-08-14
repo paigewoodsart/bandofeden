@@ -588,6 +588,21 @@
       color: rgba(242,240,228,0.75);
       font-weight: 300;
     }
+    .member-modal-bio p + p { margin-top: 14px; }
+    .member-modal-instagram {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      margin-top: 20px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: border-color 0.3s, color 0.3s, box-shadow 0.3s;
+    }
+    .member-modal-instagram.is-visible { display: inline-flex; }
+    .member-modal-instagram svg { width: 18px; height: 18px; fill: currentColor; }
+    .member-modal-instagram:hover { border-color: var(--gold); color: var(--gold); box-shadow: var(--glow); }
 
     /* ═══ MUSIC ═══════════════════════════════════════ */
     .music-desc {
@@ -1305,15 +1320,15 @@
               <span class="member-role">Vocals &amp; Guitar</span>
             </li>
             <li class="member-item">
-              <button type="button" class="member-name" data-photo="eden-images/aaron-bio.jpg" data-role="Lead Guitar &amp; Vocals">Aaron Hiebert</button>
+              <button type="button" class="member-name" data-photo="eden-images/aaron-bio.jpg" data-role="Lead Guitar &amp; Vocals" data-instagram="https://www.instagram.com/aaron_hiebert/" data-bio="Aaron Hiebert is a born and raised Pacific Northwest guitarist whose passion for six strings has fueled decades of playing in clubs, festivals and venues throughout Washington and the surrounding region. Influenced by guitar legends such as Stevie Ray Vaughan, Eric Johnson, and Joe Bonamassa, Aaron blends blues, rock, and soulful lead work into a style that is both expressive and unmistakably his own.&#10;A true guitar enthusiast, Aaron lives and breathes the instrument. When he's not playing in Eden, he's often hunting for the next great guitar, buying, selling, and exploring new gear in an endless pursuit of tone. Whether performing on stage, jamming with fellow musicians, or talking shop with other guitar lovers, his dedication to the craft is evident in everything he does.&#10;For Aaron, guitar isn't just a hobby or a profession. It's a lifelong obsession, a creative outlet, and a way of life.">Aaron Hiebert</button>
               <span class="member-role">Lead Guitar &amp; Vocals</span>
             </li>
             <li class="member-item">
-              <button type="button" class="member-name" data-photo="eden-images/jason-bio.jpg" data-role="Drums">Jason Edwards</button>
+              <button type="button" class="member-name" data-photo="eden-images/jason-bio.jpg" data-role="Drums" data-instagram="https://www.instagram.com/jasonedwardsdrummer/" data-bio="Jason Edwards held drumsticks for the first time at age 15. Prompted by a school project to learn a new skill over the next three months, he found himself at a local music store taking a drum lesson, and quickly discovered a dormant passion for music and drumming that altered his life's direction. In addition to playing professionally, Jason records and mixes music at his home studio and teaches drum lessons. When he's not making music, Jason enjoys trying new restaurants, movies, and family time.">Jason Edwards</button>
               <span class="member-role">Drums</span>
             </li>
             <li class="member-item">
-              <button type="button" class="member-name" data-photo="eden-images/ethan-bio.jpg" data-role="Bass">Ethan Gibbons</button>
+              <button type="button" class="member-name" data-photo="eden-images/ethan-bio.jpg" data-role="Bass" data-instagram="https://www.instagram.com/ethanpatrickgibbons/" data-bio="Ethan started playing guitar at 10 after discovering Green Day, then found his way to bass a few years later when a friend's high school band needed a fill-in.&#10;Raised on a mix of pop and heavy music, he approaches bass by serving the song, leaning into dynamics, and chasing the gnarliest tone possible. He loves Eden's creative process and the community that's grown around the band. Outside of music, he's usually nerding out about bourbon, baseball, or MMA.">Ethan Gibbons</button>
               <span class="member-role">Bass</span>
             </li>
           </ul>
@@ -1331,7 +1346,10 @@
       <div class="member-modal-body">
         <h3 class="member-modal-name" id="memberModalName"></h3>
         <p class="member-modal-role" id="memberModalRole"></p>
-        <p class="member-modal-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        <div class="member-modal-bio" id="memberModalBio"></div>
+        <a class="member-modal-instagram" id="memberModalInstagram" href="" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
       </div>
     </div>
   </div>
@@ -1704,6 +1722,8 @@
     const memberModalPhoto = document.getElementById('memberModalPhoto');
     const memberModalName = document.getElementById('memberModalName');
     const memberModalRole = document.getElementById('memberModalRole');
+    const memberModalBio = document.getElementById('memberModalBio');
+    const memberModalInstagram = document.getElementById('memberModalInstagram');
     let lastMemberTrigger = null;
 
     function openMemberModal(btn) {
@@ -1711,6 +1731,29 @@
       memberModalPhoto.alt = btn.textContent.trim();
       memberModalName.textContent = btn.textContent.trim();
       memberModalRole.innerHTML = btn.dataset.role;
+
+      memberModalBio.innerHTML = '';
+      const bio = btn.dataset.bio;
+      if (bio) {
+        bio.split('\n').filter(line => line.trim()).forEach(line => {
+          const p = document.createElement('p');
+          p.textContent = line.trim();
+          memberModalBio.appendChild(p);
+        });
+      } else {
+        const p = document.createElement('p');
+        p.textContent = 'Bio coming soon.';
+        memberModalBio.appendChild(p);
+      }
+
+      if (btn.dataset.instagram) {
+        memberModalInstagram.href = btn.dataset.instagram;
+        memberModalInstagram.classList.add('is-visible');
+      } else {
+        memberModalInstagram.href = '';
+        memberModalInstagram.classList.remove('is-visible');
+      }
+
       memberModal.classList.add('is-open');
       memberModal.setAttribute('aria-hidden', 'false');
       lastMemberTrigger = btn;
