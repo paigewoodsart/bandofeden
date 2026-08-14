@@ -458,16 +458,21 @@
       color: var(--gold);
       margin-bottom: 24px;
     }
+    .member-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
     .member-item {
-      padding: 18px 0 18px 0;
-      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--glow);
       display: flex;
       flex-direction: column;
       gap: 4px;
       position: relative;
-      transition: padding-left 0.3s;
+      transition: padding-left 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
-    .member-item:first-child { border-top: 1px solid var(--border); }
     .member-item::before {
       content: '';
       position: absolute;
@@ -477,8 +482,12 @@
       opacity: 0;
       transition: opacity 0.3s;
     }
-    .member-item:hover { padding-left: 14px; }
+    .member-item:hover { padding-left: 30px; border-color: rgba(192,192,192,0.55); box-shadow: var(--glow-lg); }
     .member-item:hover::before { opacity: 1; }
+    @keyframes member-pulse-glow {
+      0%, 100% { box-shadow: var(--glow); border-color: var(--border); }
+      50% { box-shadow: var(--glow-lg); border-color: rgba(192,192,192,0.5); }
+    }
     .member-name {
       background: none;
       border: none;
@@ -494,10 +503,25 @@
     }
     .member-name:hover,
     .member-name:focus-visible { color: var(--gold); }
+    .member-name::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
     .member-role {
       font-size: 17px;
       color: var(--muted);
       letter-spacing: 0.07em;
+    }
+    .member-hint {
+      display: none;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.75;
+      margin-top: 6px;
     }
 
     /* ═══ MEMBER BIO MODAL ═══════════════════════════════ */
@@ -523,10 +547,10 @@
       z-index: 1;
       background: var(--card);
       border: 1px solid var(--border);
-      max-width: 640px;
+      max-width: 900px;
       width: 100%;
       max-height: 85vh;
-      overflow: auto;
+      overflow: hidden;
       display: grid;
       grid-template-columns: 1fr 1fr;
       opacity: 0;
@@ -540,16 +564,20 @@
     .member-modal-photo {
       width: 100%;
       height: 100%;
-      min-height: 240px;
-      object-fit: cover;
+      max-height: 85vh;
+      object-fit: contain;
+      background: var(--bg);
       display: block;
     }
+    .member-modal-fade { display: none; }
     .member-modal-body {
       padding: 40px 36px;
       display: flex;
       flex-direction: column;
       gap: 16px;
-      justify-content: center;
+      justify-content: flex-start;
+      max-height: 85vh;
+      overflow-y: auto;
     }
     .member-modal-close {
       position: absolute;
@@ -1170,9 +1198,31 @@
       .inner { padding: 64px 20px; }
       .nav-links, .nav-socials { display: none; }
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
-      .member-modal-card { grid-template-columns: 1fr; }
-      .member-modal-photo { min-height: 200px; }
-      .member-modal-body { padding: 28px 24px; }
+      .member-hint { display: block; }
+      .member-item { animation: member-pulse-glow 2.6s ease-in-out infinite; }
+      .member-modal-card { grid-template-columns: 1fr; overflow-y: auto; }
+      .member-modal-close { position: fixed; }
+      .member-modal-photo {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        height: 240px;
+        min-height: 240px;
+        max-height: 240px;
+        object-fit: cover;
+        background: none;
+      }
+      .member-modal-fade {
+        display: block;
+        position: sticky;
+        top: 240px;
+        z-index: 1;
+        height: 28px;
+        margin-bottom: -28px;
+        background: linear-gradient(to bottom, var(--card), transparent);
+        pointer-events: none;
+      }
+      .member-modal-body { padding: 28px 24px; max-height: none; overflow-y: visible; }
       .form-grid { grid-template-columns: 1fr; }
       .form-group.full { grid-column: auto; }
       .booking-modal-card { padding: 64px 24px 32px; max-height: 92vh; }
@@ -1314,22 +1364,26 @@
         </div>
         <div>
           <p class="about-members-label">The Band</p>
-          <ul role="list">
+          <ul role="list" class="member-list">
             <li class="member-item">
               <button type="button" class="member-name" data-photo="eden-images/savanna-bio.jpg" data-role="Vocals &amp; Guitar">Savanna Woods</button>
               <span class="member-role">Vocals &amp; Guitar</span>
+              <span class="member-hint">Tap to Read Bio &rarr;</span>
             </li>
             <li class="member-item">
               <button type="button" class="member-name" data-photo="eden-images/aaron-bio.jpg" data-role="Lead Guitar &amp; Vocals" data-instagram="https://www.instagram.com/aaron_hiebert/" data-bio="Aaron Hiebert is a born and raised Pacific Northwest guitarist whose passion for six strings has fueled decades of playing in clubs, festivals and venues throughout Washington and the surrounding region. Influenced by guitar legends such as Stevie Ray Vaughan, Eric Johnson, and Joe Bonamassa, Aaron blends blues, rock, and soulful lead work into a style that is both expressive and unmistakably his own.&#10;A true guitar enthusiast, Aaron lives and breathes the instrument. When he's not playing in Eden, he's often hunting for the next great guitar, buying, selling, and exploring new gear in an endless pursuit of tone. Whether performing on stage, jamming with fellow musicians, or talking shop with other guitar lovers, his dedication to the craft is evident in everything he does.&#10;For Aaron, guitar isn't just a hobby or a profession. It's a lifelong obsession, a creative outlet, and a way of life.">Aaron Hiebert</button>
               <span class="member-role">Lead Guitar &amp; Vocals</span>
+              <span class="member-hint">Tap to Read Bio &rarr;</span>
             </li>
             <li class="member-item">
               <button type="button" class="member-name" data-photo="eden-images/jason-bio.jpg" data-role="Drums" data-instagram="https://www.instagram.com/jasonedwardsdrummer/" data-bio="Jason Edwards held drumsticks for the first time at age 15. Prompted by a school project to learn a new skill over the next three months, he found himself at a local music store taking a drum lesson, and quickly discovered a dormant passion for music and drumming that altered his life's direction. In addition to playing professionally, Jason records and mixes music at his home studio and teaches drum lessons. When he's not making music, Jason enjoys trying new restaurants, movies, and family time.">Jason Edwards</button>
               <span class="member-role">Drums</span>
+              <span class="member-hint">Tap to Read Bio &rarr;</span>
             </li>
             <li class="member-item">
               <button type="button" class="member-name" data-photo="eden-images/ethan-bio.jpg" data-role="Bass" data-instagram="https://www.instagram.com/ethanpatrickgibbons/" data-bio="Ethan started playing guitar at 10 after discovering Green Day, then found his way to bass a few years later when a friend's high school band needed a fill-in.&#10;Raised on a mix of pop and heavy music, he approaches bass by serving the song, leaning into dynamics, and chasing the gnarliest tone possible. He loves Eden's creative process and the community that's grown around the band. Outside of music, he's usually nerding out about bourbon, baseball, or MMA.">Ethan Gibbons</button>
               <span class="member-role">Bass</span>
+              <span class="member-hint">Tap to Read Bio &rarr;</span>
             </li>
           </ul>
         </div>
@@ -1343,6 +1397,7 @@
     <div class="member-modal-card">
       <button type="button" class="member-modal-close" aria-label="Close" data-member-close>&times;</button>
       <img class="member-modal-photo" id="memberModalPhoto" src="" alt="" />
+      <div class="member-modal-fade" aria-hidden="true"></div>
       <div class="member-modal-body">
         <h3 class="member-modal-name" id="memberModalName"></h3>
         <p class="member-modal-role" id="memberModalRole"></p>
