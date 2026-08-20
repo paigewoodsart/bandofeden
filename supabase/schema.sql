@@ -13,8 +13,8 @@
 create table if not exists site_content (
   id smallint primary key default 1,
   about_text text not null default '',
-  featured_track_name text not null default '',
-  featured_track_url text not null default '',
+  ticker_text text not null default '',  -- scrolling banner under "Our Sound" — any text, not tied to a release
+  ticker_url text not null default '',   -- where the banner links to — any URL
   updated_at timestamptz not null default now(),
   constraint site_content_singleton check (id = 1)
 );
@@ -70,15 +70,15 @@ create policy "Admin delete member photos" on storage.objects
   for delete to authenticated using (bucket_id = 'member-photos');
 
 -- ═══ SEED DATA (real current content) ════════════════
-insert into site_content (id, about_text, featured_track_name, featured_track_url) values (
+insert into site_content (id, about_text, ticker_text, ticker_url) values (
   1,
   'Eden is a rock, blues, and pop band from the Pacific Northwest, bringing an energetic and impactful sound to every performance. Led by Savanna Woods, their music combines original songs with dynamic covers from the 60s through today.',
-  'Already Gone',
+  'Listen to our newest release “Already Gone”',
   'https://open.spotify.com/track/2xYmQCepznOmb9noqwPyTX?si=c32e0573ff1b47ea'
 ) on conflict (id) do update set
   about_text = excluded.about_text,
-  featured_track_name = excluded.featured_track_name,
-  featured_track_url = excluded.featured_track_url;
+  ticker_text = excluded.ticker_text,
+  ticker_url = excluded.ticker_url;
 
 insert into socials (platform, label, url, handle) values
   ('facebook',    'Facebook',    'https://www.facebook.com/bandofeden', '@bandofeden'),

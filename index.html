@@ -2129,7 +2129,7 @@
       try {
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         const [{ data: content }, { data: socials }, { data: members }] = await Promise.all([
-          sb.from('site_content').select('about_text, featured_track_name, featured_track_url').eq('id', 1).single(),
+          sb.from('site_content').select('about_text, ticker_text, ticker_url').eq('id', 1).single(),
           sb.from('socials').select('platform, label, url, handle'),
           sb.from('members').select('*').order('sort_order', { ascending: true }),
         ]);
@@ -2138,16 +2138,16 @@
           document.querySelector('.about-text p').textContent = content.about_text;
         }
 
-        if (content?.featured_track_url) {
+        if (content?.ticker_text && content?.ticker_url) {
           const srLink = document.getElementById('musicSrLink');
           if (srLink) {
-            srLink.href = content.featured_track_url;
-            srLink.textContent = `Listen to our newest release, “${content.featured_track_name}”, on Spotify`;
+            srLink.href = content.ticker_url;
+            srLink.textContent = content.ticker_text;
           }
           document.querySelectorAll('.music-ticker-item').forEach(a => {
-            a.href = content.featured_track_url;
+            a.href = content.ticker_url;
             const textEl = a.querySelector('.music-ticker-text');
-            if (textEl) textEl.textContent = `Listen to our newest release “${content.featured_track_name}”`;
+            if (textEl) textEl.textContent = content.ticker_text;
           });
         }
 
