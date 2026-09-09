@@ -463,6 +463,7 @@
       margin: 0 auto;
       padding: 112px 32px;
     }
+    #about, #music, #shows, #media, #contact { scroll-margin-top: var(--nav-h); }
 
     /* ═══ ABOUT ═══════════════════════════════════════ */
     .about-grid {
@@ -739,7 +740,7 @@
       margin-bottom: 48px;
     }
     .bit-widget-wrap {
-      background: var(--cream);
+      background: transparent;
       padding: 32px;
       position: relative;
       width: 70vw;
@@ -1291,6 +1292,15 @@
       }
       .music-ticker { order: 4; position: relative; inset: auto; }
 
+      /* 3c. shows: widget card goes full-width with tighter padding */
+      .bit-widget-wrap {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px;
+      }
+      .shows-desc { margin-bottom: 32px; }
+      .shows-cta { margin-top: 32px; }
+
       /* 4. media card: stack image above content */
       .media-card { grid-template-columns: 1fr; }
       .media-card-image img { min-height: 240px; }
@@ -1483,27 +1493,43 @@
       <div class="sect-rule" aria-hidden="true"></div>
       <p class="shows-desc">Experience Eden live and feel the energy for yourself. Perfect for clubs, festivals, and private events.</p>
       <div class="bit-widget-wrap">
+        <script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
         <a class="bit-widget-initializer"
            data-artist-name="id_15500141"
-           data-display-local-dates="true"
-           data-display-past-dates="false"
-           data-auto-style="false"
-           data-widget-width="100%"
-           data-lang="en"
-           data-font-color="#0A0A0A"
-           data-button-label="Get Tickets"
-           data-button-type="link"
-           data-background-color="#F2F0E4"
-           data-separator-color="#C0C0C0"
-           data-link-color="#0A0A0A"
-           data-display-limit="5"
-           href="https://www.bandsintown.com/a/15500141-band-of-eden?came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=widget">
-        </a>
+           data-background-color="rgba(0,0,0,0.7)"
+           data-text-color="rgba(255,255,255,1)"
+           data-separator-color="rgba(255,255,255,0.25)"
+           data-font="Barlow"
+           data-location-capitalization="uppercase"
+           data-venue-capitalization="capitalize"
+           data-display-lineup="false"
+           data-display-start-time="true"
+           data-display-limit="all"
+           data-date-format="M/D"
+           data-date-orientation="horizontal"
+           data-event-ticket-cta-size="small"
+           data-event-rsvp-position="right"
+           data-event-rsvp-cta-bg-color="rgba(192,192,192,1)"
+           data-follow-section-position="bottom"
+           data-follow-section-alignment="left"
+           data-follow-section-header-text="Stay Updated On New Shows"
+           data-follow-section-cta-text="FOLLOW"
+           data-follow-section-cta-icon="false"
+           data-follow-section-cta-bg-color="rgba(192,192,192,1)"
+           data-follow-section-cta-border-color="rgba(255,255,255,1)"
+           data-play-my-city-position="bottom"
+           data-play-my-city-alignment="left"
+           data-play-my-city-header-text="Request My City"
+           data-play-my-city-cta-icon="false"
+           data-play-my-city-cta-bg-color="rgba(192,192,192,1)"
+           data-play-my-city-cta-border-color="rgba(255,255,255,1)"
+           data-app-id="fa8c8ad92eb699394ccd28b355fee9d7"
+           data-bit-logo-position="bottomLeft"
+        ></a>
       </div>
       <div class="shows-cta">
         <a href="https://www.bandsintown.com/a/15500141-band-of-eden" target="_blank" rel="noopener noreferrer" class="btn btn-gold">View All</a>
       </div>
-      <script src="https://widget.bandsintown.com/main.min.js" charset="utf-8"></script>
     </div>
   </section>
 
