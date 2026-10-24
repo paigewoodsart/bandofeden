@@ -307,6 +307,14 @@
     }
     .nav-mobile-socials a:hover { border-color: var(--gold); color: var(--gold); }
     .nav-mobile-socials svg { width: 16px; height: 16px; fill: currentColor; }
+    .nav-mobile a.nav-mobile-tip {
+      display: inline-flex;
+      margin-top: 32px;
+      padding: 10px 24px;
+      font-size: 0.85rem;
+      color: var(--bg);
+    }
+    .nav-mobile a.nav-mobile-tip:hover { color: var(--bg); }
     .nav-mobile-close {
       position: absolute;
       top: 24px;
@@ -457,13 +465,14 @@
       background-size: cover;
       background-position: center;
     }
+    #tip      { background: var(--bg); }
     #contact  { background: var(--bg); }
     .inner {
       max-width: var(--max);
       margin: 0 auto;
       padding: 112px 32px;
     }
-    #about, #music, #shows, #media, #contact { scroll-margin-top: var(--nav-h); }
+    #about, #tip, #music, #shows, #media, #contact { scroll-margin-top: var(--nav-h); }
 
     /* ═══ ABOUT ═══════════════════════════════════════ */
     .about-grid {
@@ -877,6 +886,26 @@
       letter-spacing: 0.04em;
     }
     /* socials handled in main mobile block below */
+
+    /* ═══ TIP JAR ════════════════════════════════════ */
+    .tip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .tip-desc {
+      font-size: 18px;
+      line-height: 1.85;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+      max-width: 560px;
+    }
+    .tip-links {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
 
     /* ═══ CONTACT ════════════════════════════════════ */
     .contact-wrap { max-width: 680px; }
@@ -1317,6 +1346,18 @@
         gap: 4px;
       }
       .follow-link { padding: 28px 12px 20px; }
+
+      /* 7. tip jar: compact cards at half the screen width, description below them */
+      .tip-grid { grid-template-columns: 1fr; gap: 0; }
+      .tip-grid > div:first-child { display: contents; }
+      .tip-links { order: 1; width: 50vw; gap: 4px; }
+      .tip-desc { order: 2; margin-top: 32px; font-size: 16px; }
+      .tip-links .follow-link { min-width: 0; padding: 16px 6px 12px; gap: 8px; }
+      .tip-links .follow-link::before { top: 4px; left: 4px; width: 8px; height: 8px; }
+      .tip-links .follow-link::after { bottom: 4px; right: 4px; width: 8px; height: 8px; }
+      .tip-links .follow-icon { width: 24px; height: 24px; }
+      .tip-links .follow-label { font-size: 0.68rem; letter-spacing: 0.2em; }
+      .tip-links .follow-handle { font-size: 0.62rem; letter-spacing: 0.02em; line-height: 1.35; }
     }
   </style>
 </head>
@@ -1332,6 +1373,7 @@
         <li><a href="#shows">Shows</a></li>
         <li><a href="#media">Media</a></li>
         <li><a href="#contact">Contact</a></li>
+        <li><a href="#tip">Tip Jar</a></li>
       </ul>
       <div class="nav-socials" aria-label="Social media links">
         <a href="https://www.facebook.com/bandofeden" target="_blank" rel="noopener noreferrer" data-social="facebook" aria-label="Eden on Facebook">
@@ -1374,6 +1416,7 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
       </a>
     </div>
+    <a href="#tip" class="btn btn-gold nav-mobile-tip">Tip Jar</a>
   </div>
 
   <img src="eden-images/eden-logo-hero.png" alt="Eden" class="hero-logo" id="hero-logo" />
@@ -1424,6 +1467,36 @@
             </li>
           </ul>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TIP JAR ═══════════════════════════════════════ -->
+  <section id="tip" aria-labelledby="tip-title">
+    <div class="inner">
+      <div class="tip-grid">
+      <div>
+        <h2 class="sect-title" id="tip-title">Tip the Band</h2>
+        <div class="sect-rule" aria-hidden="true"></div>
+        <p class="tip-desc">Thank you for being here. Every tip, big or small, goes right back into the music: gas money to get us to your town, upkeep on the gear that makes the noise, and fresh merch for the next show. We are so grateful for every one of you who helps keep Eden on the road.</p>
+      </div>
+      <div class="tip-links">
+        <a href="https://account.venmo.com/u/savannawoodsmusic" target="_blank" rel="noopener noreferrer" class="follow-link" aria-label="Tip Eden on Venmo (opens in a new window)">
+          <div class="follow-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 1.6c.75 1.24 1.1 2.52 1.1 4.14 0 5.16-4.4 11.87-7.98 16.58H4.47L1.2 2.8l7.16-.68 1.74 13.97c1.62-2.64 3.62-6.8 3.62-9.63 0-1.55-.27-2.6-.68-3.47L19.5 1.6z"/></svg>
+          </div>
+          <span class="follow-label">Venmo</span>
+          <span class="follow-handle">@savannawoods<wbr>music</span>
+        </a>
+
+        <a href="https://www.paypal.com/paypalme/savannawoods" target="_blank" rel="noopener noreferrer" class="follow-link" aria-label="Tip Eden on PayPal (opens in a new window)">
+          <div class="follow-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/></svg>
+          </div>
+          <span class="follow-label">PayPal</span>
+          <span class="follow-handle">@savannawoods</span>
+        </a>
+      </div>
       </div>
     </div>
   </section>
