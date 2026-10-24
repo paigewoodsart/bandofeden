@@ -908,6 +908,42 @@
     }
 
     /* ═══ CONTACT ════════════════════════════════════ */
+    .contact-quote {
+      position: relative;
+      max-width: 820px;
+      margin: 0 0 96px;
+      padding-left: 40px;
+      border-left: 1px solid var(--border);
+    }
+    .contact-quote::before {
+      content: '\201C';
+      position: absolute;
+      top: -28px; left: 28px;
+      font-family: 'Marcellus', serif;
+      font-size: 6rem;
+      line-height: 1;
+      color: var(--gold);
+      opacity: 0.25;
+      pointer-events: none;
+    }
+    .contact-quote p {
+      position: relative;
+      font-family: 'Marcellus', serif;
+      font-size: 1.6rem;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--cream);
+    }
+    .contact-quote cite {
+      display: block;
+      margin-top: 24px;
+      font-style: normal;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
     .contact-wrap { max-width: 680px; }
     .contact-buttons { display: flex; gap: 20px; flex-wrap: wrap; }
     .contact-desc {
@@ -1285,6 +1321,10 @@
       .booking-modal-card { padding: 64px 24px 32px; max-height: 92vh; }
       .thankyou-title { font-size: 2rem; }
       .contact-buttons { justify-content: center; }
+      .contact-quote { padding-left: 20px; margin-bottom: 64px; }
+      .contact-quote::before { left: 10px; font-size: 4.5rem; top: -20px; }
+      .contact-quote p { font-size: 1.2rem; }
+      .contact-quote cite { font-size: 0.75rem; letter-spacing: 0.16em; line-height: 1.7; }
 
       :root {
         --hero-logo-w-rest: 160px;
@@ -1669,6 +1709,10 @@
   <!-- ═══ CONTACT ═══════════════════════════════════════ -->
   <section id="contact" aria-labelledby="contact-title">
     <div class="inner">
+      <blockquote class="contact-quote">
+        <p>Having produced thousands of concerts, few exceed the entertainment value Eden provides the audience. Each performer is a highly skilled and entertaining artist, stretching the boundaries of their craft. Every demographic will enjoy an Eden performance, again and again!</p>
+        <cite>John Rostas &nbsp;&middot;&nbsp; President, Live Nation Entertainment (Retired)</cite>
+      </blockquote>
       <h2 class="sect-title" id="contact-title">Get in Touch</h2>
       <div class="sect-rule" aria-hidden="true"></div>
       <p class="contact-desc">Looking to book Eden for an event, or just want to say hello? Pick whichever fits below.</p>
